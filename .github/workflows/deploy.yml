@@ -8,6 +8,10 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    # DATABASE_URL dummy: `prisma generate` (via postinstall) hanya butuh
+    # variabelnya ada, tidak butuh koneksi DB live.
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
     steps:
       - uses: actions/checkout@v4
 
