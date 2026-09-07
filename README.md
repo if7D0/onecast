@@ -1,0 +1,82 @@
+# OneCast — AI Content Repurposing Tool
+
+Ubah satu konten menjadi berbagai format siap-post (Twitter/X, LinkedIn,
+Instagram, Newsletter) dalam < 5 menit. Gratis, open-source, self-hostable.
+
+> Status: **Fase 1 — Project Setup & Infrastructure** (lihat `onecast.prd.md`).
+> Landing page asli, auth, dan AI menyusul di Fase 2–5.
+
+## Tech Stack
+
+| Layer    | Teknologi                          |
+| -------- | ---------------------------------- |
+| Frontend | Next.js 15 (App Router) + React 19 |
+| Styling  | Tailwind CSS v4 + shadcn/ui        |
+| Backend  | Next.js API Routes                 |
+| Database | Supabase (PostgreSQL) via Prisma 6 |
+| Deploy   | Vercel                             |
+
+## Prasyarat
+
+- Node.js ≥ 20.9 (`node -v`)
+- npm (bawaan Node)
+- Project Supabase gratis ([supabase.com](https://supabase.com)) untuk kredensial DB
+
+## Mulai Cepat
+
+```bash
+# 1. Install dependencies (menjalankan `prisma generate` otomatis)
+npm install
+
+# 2. Salin env dan isi dari dashboard Supabase
+cp .env.example .env
+
+# 3. Jalankan dev server
+npm run dev
+```
+
+Buka [http://localhost:3000](http://localhost:3000).
+
+### Environment
+
+| Variabel                      | Sumber                                          |
+| ----------------------------- | ----------------------------------------------- |
+| `DATABASE_URL`                | Supabase → Connect → Transaction Pooler (`6543` + `?pgbouncer=true`) |
+| `DIRECT_URL`                  | Supabase → Connect → Session/Direct (`5432`), untuk migrasi |
+| `NEXT_PUBLIC_SUPABASE_URL`    | Supabase → Project Settings → API               |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase → Project Settings → API             |
+| `SUPABASE_SERVICE_ROLE_KEY`   | Supabase → Project Settings → API (server saja, jangan ke client!) |
+
+Kunci AI (`GOOGLE_AI_API_KEY`, `GROQ_API_KEY`, `OPENROUTER_API_KEY`)
+baru dibutuhkan di Fase 4+.
+
+## Skrip
+
+| Perintah              | Fungsi                              |
+| --------------------- | ----------------------------------- |
+| `npm run dev`         | Dev server (Turbopack)              |
+| `npm run build`       | Production build                    |
+| `npm run lint`        | ESLint                              |
+| `npx prettier --check .` | Cek format                       |
+| `npx prisma studio`   | GUI database                        |
+
+## Deploy ke Vercel
+
+1. Push repo ke GitHub.
+2. Import di [vercel.com/new](https://vercel.com/new).
+3. Isi environment variables (lihat tabel di atas + `NEXT_PUBLIC_APP_URL`
+   = URL produksi, `NEXT_PUBLIC_APP_NAME=OneCast`).
+4. Deploy — setiap push ke `main` otomatis redeploy.
+
+> Catatan: Vercel Hobby hanya untuk non-komersial. Untuk komersial,
+> migrasi ke Cloudflare Pages (gratis) atau Railway (lihat PRD).
+
+## Struktur Folder
+
+Lihat `onecast.prd.md` → bagian **Folder Structure** (kontrak doc).
+Fase 1 baru menyediakan fondasi: `src/app/`, `src/components/ui/`,
+`src/lib/db/`, `prisma/`.
+
+## Lisensi
+
+MIT (ditambahkan di Fase 9).
