@@ -39,26 +39,26 @@ Buka [http://localhost:3000](http://localhost:3000).
 
 ### Environment
 
-| Variabel                      | Sumber                                          |
-| ----------------------------- | ----------------------------------------------- |
-| `DATABASE_URL`                | Supabase → Connect → Transaction Pooler (`6543` + `?pgbouncer=true`) |
-| `DIRECT_URL`                  | Supabase → Connect → Session/Direct (`5432`), untuk migrasi |
-| `NEXT_PUBLIC_SUPABASE_URL`    | Supabase → Project Settings → API               |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase → Project Settings → API             |
-| `SUPABASE_SERVICE_ROLE_KEY`   | Supabase → Project Settings → API (server saja, jangan ke client!) |
+| Variabel                        | Sumber                                                               |
+| ------------------------------- | -------------------------------------------------------------------- |
+| `DATABASE_URL`                  | Supabase → Connect → Transaction Pooler (`6543` + `?pgbouncer=true`) |
+| `DIRECT_URL`                    | Supabase → Connect → Session/Direct (`5432`), untuk migrasi          |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Supabase → Project Settings → API                                    |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase → Project Settings → API                                    |
+| `SUPABASE_SERVICE_ROLE_KEY`     | Supabase → Project Settings → API (server saja, jangan ke client!)   |
 
 Kunci AI (`GOOGLE_AI_API_KEY`, `GROQ_API_KEY`, `OPENROUTER_API_KEY`)
 baru dibutuhkan di Fase 4+.
 
 ## Skrip
 
-| Perintah              | Fungsi                              |
-| --------------------- | ----------------------------------- |
-| `npm run dev`         | Dev server (Turbopack)              |
-| `npm run build`       | Production build                    |
-| `npm run lint`        | ESLint                              |
-| `npx prettier --check .` | Cek format                       |
-| `npx prisma studio`   | GUI database                        |
+| Perintah                 | Fungsi                 |
+| ------------------------ | ---------------------- |
+| `npm run dev`            | Dev server (Turbopack) |
+| `npm run build`          | Production build       |
+| `npm run lint`           | ESLint                 |
+| `npx prettier --check .` | Cek format             |
+| `npx prisma studio`      | GUI database           |
 
 ## Deploy ke Vercel
 
