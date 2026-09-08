@@ -13,11 +13,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Model User minimal untuk Fase 1 (koneksi + generate).
-// Model Generation + index + migrasi dikerjakan di Fase 2.
+// Model app di schema public. Baris User dibuat OTOMATIS oleh trigger
+// (prisma/triggers.sql) setiap ada signup di auth.users — id HARUS UUID auth,
+// bukan cuid, agar foreign key trigger tidak gagal.
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
+  id          String       @id @db.Uuid
+  email       String       @unique
+  name        String?
+  avatar      String?
   createdAt DateTime @default(now())
+  // @default(now()) WAJIB mendampingi @updatedAt: trigger SQL mengisi baris
+  // langsung via SQL (tanpa Prisma Client), sehingga DB harus bisa mengisi
+  // updatedAt sendiri. Tanpa ini: NOT NULL violation (23502) -> signup gagal.
+  updatedAt DateTime @updatedAt @default(now())
+  generations Generation[]
+
+  @@map("User")
+}
+
+model Generation {
+  id         String   @id @default(cuid())
+  userId     String   @db.Uuid
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  input      String
+  platform   String
+  tone       String
+  outputs    Json
+  provider   String
+  tokensUsed Int
+  createdAt  DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@map("Generation")
 }

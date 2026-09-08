@@ -73,9 +73,38 @@ baru dibutuhkan di Fase 4+.
 
 ## Struktur Folder
 
-Lihat `onecast.prd.md` → bagian **Folder Structure** (kontrak doc).
+Lihat `.claude/PRPs/prds/onecast.prd.md` → bagian **Folder Structure** (kontrak doc).
 Fase 1 baru menyediakan fondasi: `src/app/`, `src/components/ui/`,
 `src/lib/db/`, `prisma/`.
+
+## Auth (Fase 2)
+
+Login memakai Supabase Auth: email/password + Google OAuth.
+
+### Checklist dashboard Supabase (satu kali)
+
+1. **Authentication → Providers → Email**: ON.
+2. **Authentication → URL Configuration**: Site URL = `http://localhost:3000`
+   (produksi: URL Vercel); Redirect URLs tambah
+   `http://localhost:3000/auth/callback` (+ versi produksi).
+3. **Google**: Google Cloud Console → Credentials → OAuth client ID (Web) →
+   Authorized redirect URI = `https://[PROJECT-REF].supabase.co/auth/v1/callback`
+   → masukkan Client ID + Secret ke Auth → Providers → Google → ON.
+   Bila dilewati, tombol Google menampilkan pesan ramah (tidak crash).
+4. **SQL Editor**: jalankan `prisma/triggers.sql` (trigger sync user + RLS),
+   lalu query verifikasi di bawah file tersebut.
+5. **Database**: migrasi via koneksi DIRECT (bukan pooler):
+   `$env:DATABASE_URL = $env:DIRECT_URL; npx prisma migrate dev`
+
+### Troubleshooting
+
+| Gejala                                  | Penyebab & solusi                                         |
+| --------------------------------------- | --------------------------------------------------------- |
+| `redirect_uri_mismatch` saat Google     | Redirect URI di Google Console salah; samakan persis      |
+| Login "gagal" setelah register          | Konfirmasi email ON — cek inbox / matikan untuk dev lokal |
+| Signup error "Database error"           | Trigger gagal — cek Postgres Logs di dashboard            |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` kosong  | Ambil ulang di Settings → API (publishable/anon key)      |
+| Jangan bungkus nilai `.env` dengan `[]` | Tempel mentah tanpa kurung siku/spasi                     |
 
 ## Lisensi
 
