@@ -21,8 +21,11 @@ model User {
   email       String       @unique
   name        String?
   avatar      String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  createdAt DateTime @default(now())
+  // @default(now()) WAJIB mendampingi @updatedAt: trigger SQL mengisi baris
+  // langsung via SQL (tanpa Prisma Client), sehingga DB harus bisa mengisi
+  // updatedAt sendiri. Tanpa ini: NOT NULL violation (23502) -> signup gagal.
+  updatedAt DateTime @updatedAt @default(now())
   generations Generation[]
 
   @@map("User")
