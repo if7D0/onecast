@@ -33,7 +33,11 @@ export function LoginForm({ initialError }: { initialError: string }) {
             required
           />
         </div>
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && (
+          <p role="alert" aria-live="polite" className="text-sm text-red-600">
+            {error}
+          </p>
+        )}
         <Button type="submit" className="w-full" disabled={pending}>
           {pending ? "Memproses..." : "Masuk"}
         </Button>
