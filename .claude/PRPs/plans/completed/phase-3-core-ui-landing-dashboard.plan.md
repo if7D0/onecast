@@ -58,39 +58,40 @@ ID + dashboard siap-pakai yang alurnya sudah teruji ujung-ke-ujung dengan mock
 
 ### Interaction Changes
 
-| Touchpoint | Before | After | Notes |
-|---|---|---|---|
-| `/` | Template Inggris | Landing ID lengkap | Server Component statis |
-| Toggle tema | — | Sun/Moon di header + dashboard | Persist `next-themes`, default system |
-| Form konten | — | Textarea + counter + upload .txt/.md (maks 200 KB, error bila salah) | Client state |
-| Platform | — | 4 checkbox card (X, LinkedIn, Instagram, Email) | Min. 1 dipilih |
-| Tone | — | Dropdown 4 opsi + deskripsi | Default professional |
-| Generate | — | 1,2 dtk skeleton → hasil mock per platform | Siap diganti API Fase 5 |
-| Copy | — | Tombol per hasil → "Disalin ✓" 2 dtk | Clipboard + fallback |
-| `/dashboard` placeholder | Kartu sementara | Dihapus, diganti dashboard asli | `requireUser()` tetap |
+| Touchpoint               | Before           | After                                                                | Notes                                 |
+| ------------------------ | ---------------- | -------------------------------------------------------------------- | ------------------------------------- |
+| `/`                      | Template Inggris | Landing ID lengkap                                                   | Server Component statis               |
+| Toggle tema              | —                | Sun/Moon di header + dashboard                                       | Persist `next-themes`, default system |
+| Form konten              | —                | Textarea + counter + upload .txt/.md (maks 200 KB, error bila salah) | Client state                          |
+| Platform                 | —                | 4 checkbox card (X, LinkedIn, Instagram, Email)                      | Min. 1 dipilih                        |
+| Tone                     | —                | Dropdown 4 opsi + deskripsi                                          | Default professional                  |
+| Generate                 | —                | 1,2 dtk skeleton → hasil mock per platform                           | Siap diganti API Fase 5               |
+| Copy                     | —                | Tombol per hasil → "Disalin ✓" 2 dtk                                 | Clipboard + fallback                  |
+| `/dashboard` placeholder | Kartu sementara  | Dihapus, diganti dashboard asli                                      | `requireUser()` tetap                 |
 
 ---
 
 ## Mandatory Reading
 
-| Priority | File | Lines | Why |
-|---|---|---|---|
-| P0 | `.claude/PRPs/prds/onecast.prd.md` | 398–419 | Goal, tasks, success signal, deliverables Fase 3 |
-| P0 | `.claude/PRPs/prds/onecast.prd.md` | 589–632 | Kontrak API generate (bentuk data per platform — mock mengikutinya) |
-| P0 | `src/app/layout.tsx` | 1–27 | Diubah: provider tema + metadata ID + `lang="id"` |
-| P0 | `src/app/globals.css` | 1–6, 86–118 | `@custom-variant dark` + token `.dark` SUDAH ada — jangan duplikasi |
-| P0 | `src/app/(dashboard)/dashboard/page.tsx` | 1–30 | Placeholder yang DIGANTI total |
-| P1 | `src/app/(auth)/layout.tsx` | — | Pola kartu tengah + Header shadcn untuk ditiru |
-| P1 | `src/components/ui/*` | — | button, card, input, textarea, select, checkbox, skeleton (pakai, jangan buat baru) |
-| P1 | `src/lib/auth/helpers.ts` | — | `requireUser()` tetap dipakai dashboard layout |
-| P1 | `src/app/(auth)/login/login-form.tsx` | — | Pola Client Component + `role="alert"` + shadcn |
-| P2 | `middleware.ts` (root) | — | Proteksi `/dashboard` tak berubah; pastikan toggle/landing publik |
+| Priority | File                                     | Lines       | Why                                                                                 |
+| -------- | ---------------------------------------- | ----------- | ----------------------------------------------------------------------------------- |
+| P0       | `.claude/PRPs/prds/onecast.prd.md`       | 398–419     | Goal, tasks, success signal, deliverables Fase 3                                    |
+| P0       | `.claude/PRPs/prds/onecast.prd.md`       | 589–632     | Kontrak API generate (bentuk data per platform — mock mengikutinya)                 |
+| P0       | `src/app/layout.tsx`                     | 1–27        | Diubah: provider tema + metadata ID + `lang="id"`                                   |
+| P0       | `src/app/globals.css`                    | 1–6, 86–118 | `@custom-variant dark` + token `.dark` SUDAH ada — jangan duplikasi                 |
+| P0       | `src/app/(dashboard)/dashboard/page.tsx` | 1–30        | Placeholder yang DIGANTI total                                                      |
+| P1       | `src/app/(auth)/layout.tsx`              | —           | Pola kartu tengah + Header shadcn untuk ditiru                                      |
+| P1       | `src/components/ui/*`                    | —           | button, card, input, textarea, select, checkbox, skeleton (pakai, jangan buat baru) |
+| P1       | `src/lib/auth/helpers.ts`                | —           | `requireUser()` tetap dipakai dashboard layout                                      |
+| P1       | `src/app/(auth)/login/login-form.tsx`    | —           | Pola Client Component + `role="alert"` + shadcn                                     |
+| P2       | `middleware.ts` (root)                   | —           | Proteksi `/dashboard` tak berubah; pastikan toggle/landing publik                   |
 
 ## External Documentation
 
 Tidak ada riset eksternal — semua pola internal mapan (shadcn, `next-themes`
 standar: `ThemeProvider attribute="class" defaultTheme="system" enableSystem`
-+ `suppressHydrationWarning` di `<html>`).
+
+- `suppressHydrationWarning` di `<html>`).
 
 ---
 
@@ -99,6 +100,7 @@ standar: `ThemeProvider attribute="class" defaultTheme="system" enableSystem`
 ### NAMING_CONVENTION
 
 // SOURCE: Fase 2 — `src/app/(auth)/login/login-form.tsx`, `src/lib/validations/auth.ts`
+
 - Komponen: PascalCase per file (`ContentInput.tsx`), helper: camelCase
 - Client interaktif: `"use client"` baris pertama; Server: default
 - Konstanta bersama di `src/lib/*` (contoh: `PASSWORD_MIN`) — tiru untuk `PLATFORMS`, `TONES`
@@ -128,9 +130,14 @@ export const PLATFORMS = ["twitter", "linkedin", "instagram", "email"] as const;
 export type Platform = (typeof PLATFORMS)[number];
 export const TONES = ["professional", "casual", "witty", "inspirational"] as const;
 export type Tone = (typeof TONES)[number];
-export interface MockResult { platform: Platform; title: string; body: string; footer?: string }
+export interface MockResult {
+  platform: Platform;
+  title: string;
+  body: string;
+  footer?: string;
+}
 // src/lib/mock/generation.ts
-export function mockGenerate(content: string, platform: Platform, tone: Tone): MockResult
+export function mockGenerate(content: string, platform: Platform, tone: Tone): MockResult;
 // Aturan mock: twitter body ≤ 280 char; linkedin = hook + isi + CTA; instagram = caption + hashtag;
 // email = subjek + badan. Awali body dengan label tone agar perbedaan terlihat.
 ```
@@ -172,7 +179,9 @@ async function copyText(text: string): Promise<boolean> {
       const ok = document.execCommand("copy");
       ta.remove();
       return ok;
-    } catch { return false; }
+    } catch {
+      return false;
+    }
   }
 }
 // Tombol: "Salin" → "Disalin ✓" 2 dtk (setTimeout + cleanup), role="status".
@@ -181,6 +190,7 @@ async function copyText(text: string): Promise<boolean> {
 ### TEST_STRUCTURE
 
 // SOURCE: `src/lib/validations/auth.test.ts`, `src/lib/rate-limit.test.ts`, `vitest.config.ts`
+
 - Lokasi: berdampingan (`*.test.ts`), `npm test` = `vitest run`
 - Untuk Fase 3: `src/lib/mock/generation.test.ts` — tiap platform hasil non-kosong,
   twitter ≤ 280, tone berbeda → body berbeda.
@@ -189,29 +199,29 @@ async function copyText(text: string): Promise<boolean> {
 
 ## Files to Change
 
-| File | Action | Justification |
-|---|---|---|
-| `src/components/theme-provider.tsx` | CREATE | Provider next-themes |
-| `src/components/theme-toggle.tsx` | CREATE | Tombol Sun/Moon (lucide), dipakai header + dashboard |
-| `src/components/layout/header.tsx` | CREATE | Nav landing (logo, tautan, Masuk/Dashboard adaptif?) |
-| `src/components/layout/footer.tsx` | CREATE | Footer landing |
-| `src/components/layout/sidebar.tsx` | CREATE | Nav dashboard (Buat, Riwayat-disabled "Segera", Keluar) |
-| `src/components/layout/dashboard-header.tsx` | CREATE | Topbar mobile (menu + toggle + email) |
-| `src/types/generation.ts` | CREATE | `PLATFORMS`, `TONES`, `MockResult` |
-| `src/lib/mock/generation.ts` | CREATE | Generator mock per platform+tone |
-| `src/lib/mock/generation.test.ts` | CREATE | 5+ unit test mock |
-| `src/components/forms/content-input.tsx` | CREATE | Textarea + counter (maks 5000) + upload .txt/.md 200 KB |
-| `src/components/forms/platform-selector.tsx` | CREATE | 4 checkbox card + validasi min 1 |
-| `src/components/forms/tone-selector.tsx` | CREATE | Select 4 tone + deskripsi |
-| `src/components/forms/generate-button.tsx` | CREATE | Tombol + state disabled/loading (ikut struktur PRD) |
-| `src/components/results/result-card.tsx` | CREATE | Kartu per platform |
-| `src/components/results/result-list.tsx` | CREATE | Grid + empty state + skeleton saat loading |
-| `src/components/results/copy-button.tsx` | CREATE | Clipboard + fallback + status |
-| `src/app/(dashboard)/layout.tsx` | CREATE | Shell sidebar (server: requireUser + email ke sidebar) |
-| `src/app/page.tsx` | UPDATE (tulis ulang) | Landing ID lengkap |
-| `src/app/layout.tsx` | UPDATE | Provider + metadata ID + `lang="id"` |
-| `src/app/(dashboard)/dashboard/page.tsx` | UPDATE (tulis ulang) | Dashboard mock interaktif, hapus placeholder |
-| `src/app/(dashboard)/dashboard/actions.ts` | UPDATE | JSDoc + pindah logout? TETAP (dipakai sidebar) |
+| File                                         | Action               | Justification                                           |
+| -------------------------------------------- | -------------------- | ------------------------------------------------------- |
+| `src/components/theme-provider.tsx`          | CREATE               | Provider next-themes                                    |
+| `src/components/theme-toggle.tsx`            | CREATE               | Tombol Sun/Moon (lucide), dipakai header + dashboard    |
+| `src/components/layout/header.tsx`           | CREATE               | Nav landing (logo, tautan, Masuk/Dashboard adaptif?)    |
+| `src/components/layout/footer.tsx`           | CREATE               | Footer landing                                          |
+| `src/components/layout/sidebar.tsx`          | CREATE               | Nav dashboard (Buat, Riwayat-disabled "Segera", Keluar) |
+| `src/components/layout/dashboard-header.tsx` | CREATE               | Topbar mobile (menu + toggle + email)                   |
+| `src/types/generation.ts`                    | CREATE               | `PLATFORMS`, `TONES`, `MockResult`                      |
+| `src/lib/mock/generation.ts`                 | CREATE               | Generator mock per platform+tone                        |
+| `src/lib/mock/generation.test.ts`            | CREATE               | 5+ unit test mock                                       |
+| `src/components/forms/content-input.tsx`     | CREATE               | Textarea + counter (maks 5000) + upload .txt/.md 200 KB |
+| `src/components/forms/platform-selector.tsx` | CREATE               | 4 checkbox card + validasi min 1                        |
+| `src/components/forms/tone-selector.tsx`     | CREATE               | Select 4 tone + deskripsi                               |
+| `src/components/forms/generate-button.tsx`   | CREATE               | Tombol + state disabled/loading (ikut struktur PRD)     |
+| `src/components/results/result-card.tsx`     | CREATE               | Kartu per platform                                      |
+| `src/components/results/result-list.tsx`     | CREATE               | Grid + empty state + skeleton saat loading              |
+| `src/components/results/copy-button.tsx`     | CREATE               | Clipboard + fallback + status                           |
+| `src/app/(dashboard)/layout.tsx`             | CREATE               | Shell sidebar (server: requireUser + email ke sidebar)  |
+| `src/app/page.tsx`                           | UPDATE (tulis ulang) | Landing ID lengkap                                      |
+| `src/app/layout.tsx`                         | UPDATE               | Provider + metadata ID + `lang="id"`                    |
+| `src/app/(dashboard)/dashboard/page.tsx`     | UPDATE (tulis ulang) | Dashboard mock interaktif, hapus placeholder            |
+| `src/app/(dashboard)/dashboard/actions.ts`   | UPDATE               | JSDoc + pindah logout? TETAP (dipakai sidebar)          |
 
 ## NOT Building
 
@@ -262,10 +272,10 @@ async function copyText(text: string): Promise<boolean> {
   pindah logout ke sidebar (actions.ts tetap).
 - **IMPLEMENT**: Layout server: `requireUser()` → email diteruskan ke sidebar.
   Desktop: sidebar tetap kiri (navigasi: Buat Baru `/dashboard`, Riwayat disabled
-  + badge "Segera" + `aria-disabled`, Keluar via form action logout).
-  Mobile: topbar dengan menu drawer sederhana (state client di dashboard-header)
-  + theme-toggle + email. Aktif link via `usePathname` (komponen client kecil
-  `nav-links.tsx` bila perlu — boleh gabung di sidebar sebagai client).
+  - badge "Segera" + `aria-disabled`, Keluar via form action logout).
+    Mobile: topbar dengan menu drawer sederhana (state client di dashboard-header)
+  - theme-toggle + email. Aktif link via `usePathname` (komponen client kecil
+    `nav-links.tsx` bila perlu — boleh gabung di sidebar sebagai client).
 - **MIRROR**: SERVER_ACTION_FORM Fase 2 (form logout); helper `requireUser`
 - **IMPORTS**: `@/lib/auth/helpers`, `./actions`, `next/navigation` (usePathname), lucide (PlusCircle, History, LogOut, Menu, X)
 - **GOTCHA**: `usePathname` hanya di Client Component — pisahkan nav-links client
@@ -297,7 +307,7 @@ async function copyText(text: string): Promise<boolean> {
     "Subjek + isi"); toggle array; error bila kosong (disampaikan ke parent via
     validitas, bukan alert sendiri).
   - `tone-selector.tsx` (client): `Select` shadcn (value + onValueChange) 4 tone
-    + deskripsi 1 baris per tone di bawahnya.
+    - deskripsi 1 baris per tone di bawahnya.
   - `generate-button.tsx` (client): props `disabled`, `loading`; label
     "Generate" → spinner "Membuat..." (ikon Loader2 `animate-spin`).
 - **MIRROR**: FORM pola `(auth)` (label htmlFor, pesan `role="alert"`)
@@ -341,16 +351,16 @@ async function copyText(text: string): Promise<boolean> {
 
 ## Testing Strategy
 
-| Test | Input | Expected Output | Edge? |
-|---|---|---|---|
-| Mock tiap platform | konten sample + tiap tone | Non-kosong, format sesuai aturan | — |
-| Batas twitter | konten 1000 char | Body ≤ 280 | Ya |
-| Tone berbeda | sama konten, 2 tone | Body berbeda | — |
-| Upload salah | file .pdf / >200 KB | Pesan error, konten tak berubah | Ya |
-| Generate kosong | konten "" / 0 platform | Alert, tanpa hasil | Ya |
-| Copy | klik Salin | "Disalin ✓" 2 dtk | — |
-| Proteksi | anon GET /dashboard | 307 → /login | Ya |
-| Tema | klik toggle 2x | light→dark→light persist reload | — |
+| Test               | Input                     | Expected Output                  | Edge? |
+| ------------------ | ------------------------- | -------------------------------- | ----- |
+| Mock tiap platform | konten sample + tiap tone | Non-kosong, format sesuai aturan | —     |
+| Batas twitter      | konten 1000 char          | Body ≤ 280                       | Ya    |
+| Tone berbeda       | sama konten, 2 tone       | Body berbeda                     | —     |
+| Upload salah       | file .pdf / >200 KB       | Pesan error, konten tak berubah  | Ya    |
+| Generate kosong    | konten "" / 0 platform    | Alert, tanpa hasil               | Ya    |
+| Copy               | klik Salin                | "Disalin ✓" 2 dtk                | —     |
+| Proteksi           | anon GET /dashboard       | 307 → /login                     | Ya    |
+| Tema               | klik toggle 2x            | light→dark→light persist reload  | —     |
 
 ### Edge Cases Checklist
 
@@ -402,12 +412,12 @@ npm run dev               # smoke: / 200, /dashboard anon → /login
 
 ## Risks
 
-| Risk | Likelihood | Impact | Mitigation |
-|---|---|---|---|
-| Copywriting draf kurang nendang | Med | Low | User revisi saat review PR (teks terisolasi di page) |
-| Mock terlalu mirip "asli" → user bingung | Low | Med | Badge "Contoh" pada tiap result-card mock |
-| Select/Checkbox shadcn v4 API beda | Low | Med | Ikuti file ui yang ada, cek props sebelum pakai |
-| Scope merambat (SEO, OG, animasi) | Med | Med | NOT Building tegas; animasi = `tw-animate-css` seperlunya |
+| Risk                                     | Likelihood | Impact | Mitigation                                                |
+| ---------------------------------------- | ---------- | ------ | --------------------------------------------------------- |
+| Copywriting draf kurang nendang          | Med        | Low    | User revisi saat review PR (teks terisolasi di page)      |
+| Mock terlalu mirip "asli" → user bingung | Low        | Med    | Badge "Contoh" pada tiap result-card mock                 |
+| Select/Checkbox shadcn v4 API beda       | Low        | Med    | Ikuti file ui yang ada, cek props sebelum pakai           |
+| Scope merambat (SEO, OG, animasi)        | Med        | Med    | NOT Building tegas; animasi = `tw-animate-css` seperlunya |
 
 ## Notes
 
