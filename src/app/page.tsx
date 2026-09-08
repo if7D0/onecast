@@ -4,6 +4,8 @@ import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ResultCard } from "@/components/results/result-card";
+import { mockGenerate } from "@/lib/mock/generation";
 
 const FEATURES = [
   {
@@ -56,7 +58,7 @@ export default function Home() {
           aria-labelledby="hero-heading"
           className="mx-auto max-w-6xl px-4 pt-16 pb-12 text-center sm:px-6 sm:pt-24"
         >
-          <p className="text-muted-foreground mb-4 inline-block rounded-full border px-3 py-1 text-xs font-medium">
+          <p className="bg-cta text-cta-foreground mb-4 inline-block rounded-full px-3 py-1 text-xs font-semibold">
             Gratis &amp; open-source
           </p>
           <h1
@@ -70,11 +72,55 @@ export default function Home() {
             newsletter dalam &lt;5 menit. Hemat 80% waktu repurposing.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link href="/register" className={buttonVariants({ size: "lg" })}>
+            <Link
+              href="/register"
+              className="bg-cta text-cta-foreground inline-flex h-9 items-center justify-center gap-1.5 rounded-lg px-2.5 text-sm font-semibold whitespace-nowrap transition-opacity hover:opacity-90"
+            >
               Mulai Gratis
             </Link>
             <Link href="#cara-kerja" className={buttonVariants({ size: "lg", variant: "outline" })}>
               Lihat cara kerja
+            </Link>
+          </div>
+        </section>
+
+        {/* Demo produk */}
+        <section aria-labelledby="demo-heading" className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+          <h2 id="demo-heading" className="text-center text-2xl font-bold sm:text-3xl">
+            Lihat contoh hasilnya
+          </h2>
+          <p className="text-muted-foreground mx-auto mt-2 max-w-xl text-center">
+            Satu konten masuk, empat format keluar. Contoh statis dari konten yang sama.
+          </p>
+          <div className="mt-8 grid items-start gap-4 md:grid-cols-3">
+            <ResultCard
+              result={mockGenerate(
+                "OneCast mengubah satu konten menjadi siap-post di semua platform dalam hitungan menit.",
+                "twitter",
+                "casual"
+              )}
+              tone="casual"
+            />
+            <ResultCard
+              result={mockGenerate(
+                "OneCast mengubah satu konten menjadi siap-post di semua platform dalam hitungan menit.",
+                "linkedin",
+                "professional"
+              )}
+              tone="professional"
+            />
+            <ResultCard
+              result={mockGenerate(
+                "OneCast mengubah satu konten menjadi siap-post di semua platform dalam hitungan menit.",
+                "instagram",
+                "casual"
+              )}
+              tone="casual"
+            />
+          </div>
+          <div className="mt-8 text-center">
+            <Link href="/register" className={buttonVariants({ size: "lg", variant: "outline" })}>
+              Buat hasil Anda sendiri
             </Link>
           </div>
         </section>
