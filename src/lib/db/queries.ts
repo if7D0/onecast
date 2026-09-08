@@ -8,14 +8,32 @@ import type { Platform, Tone } from "@/types/generation";
 export const GENERATE_LIMIT_PER_HOUR = 5;
 export const GENERATE_LIMIT_WINDOW_MS = 3_600_000;
 
+// NOTE: rate limit non-atomic (check lalu act). Burst konkuren bisa lolos
+// sedikit di atas batas — diterima untuk MVP. Butuh atomik? Pindah ke
+// counter terdistribusi (Upstash/Vercel KV INCR+EXPIRE).
+
+/**
+ * Satu query untuk limit: jumlah + waktu tertua dalam window.
+ * Satu roundtrip (bukan count + findFirst terpisah).
+ */
+export async function recentGenerationUsage(
+  userId: string,
+  windowMs = GENERATE_LIMIT_WINDOW_MS
+): Promise<{ count: number; oldest: Date | null }> {
+  const rows = await prisma.generation.findMany({
+    where: { userId, createdAt: { gte: new Date(Date.now() - windowMs) } },
+    orderBy: { createdAt: "asc" },
+    select: { createdAt: true },
+  });
+  return { count: rows.length, oldest: rows[0]?.createdAt ?? null };
+}
+
 /** Jumlah baris Generation user dalam window (untuk rate limit). */
 export async function countRecentGenerations(
   userId: string,
   windowMs = GENERATE_LIMIT_WINDOW_MS
 ): Promise<number> {
-  return prisma.generation.count({
-    where: { userId, createdAt: { gte: new Date(Date.now() - windowMs) } },
-  });
+  return (await recentGenerationUsage(userId, windowMs)).count;
 }
 
 /** Baris tertua dalam window (untuk hitung retryAfter). Null bila tak ada. */
@@ -23,12 +41,7 @@ export async function oldestRecentGeneration(
   userId: string,
   windowMs = GENERATE_LIMIT_WINDOW_MS
 ): Promise<Date | null> {
-  const row = await prisma.generation.findFirst({
-    where: { userId, createdAt: { gte: new Date(Date.now() - windowMs) } },
-    orderBy: { createdAt: "asc" },
-    select: { createdAt: true },
-  });
-  return row?.createdAt ?? null;
+  return (await recentGenerationUsage(userId, windowMs)).oldest;
 }
 
 export interface SaveGenerationInput {
@@ -54,4 +67,21 @@ export async function saveGeneration(input: SaveGenerationInput): Promise<void> 
       tokensUsed: input.tokensUsed,
     },
   });
+}
+
+/** Simpan banyak baris sekaligus (1 roundtrip). Best-effort: kembalikan jumlah tersimpan. */
+export async function saveGenerations(inputs: SaveGenerationInput[]): Promise<number> {
+  if (inputs.length === 0) return 0;
+  const res = await prisma.generation.createMany({
+    data: inputs.map((input) => ({
+      userId: input.userId,
+      platform: input.platform,
+      tone: input.tone,
+      input: input.input,
+      outputs: input.outputs,
+      provider: input.provider,
+      tokensUsed: input.tokensUsed,
+    })),
+  });
+  return res.count;
 }

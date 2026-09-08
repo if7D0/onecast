@@ -18,6 +18,7 @@ interface ApiSuccess {
 interface ApiError {
   success: false;
   error: string;
+  retryAfterSec?: number;
 }
 
 export default function DashboardPage() {

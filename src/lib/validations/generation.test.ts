@@ -45,4 +45,13 @@ describe("generateRequestSchema", () => {
     expect(r.success).toBe(true);
     if (r.success) expect(r.data.platforms).toEqual(["twitter", "email"]);
   });
+
+  it("menerima 5 input dengan 4 unik setelah dedupe", () => {
+    const r = generateRequestSchema.safeParse({
+      ...valid,
+      platforms: ["twitter", "twitter", "linkedin", "instagram", "email"],
+    });
+    expect(r.success).toBe(true);
+    if (r.success) expect(r.data.platforms).toHaveLength(4);
+  });
 });

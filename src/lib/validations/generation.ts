@@ -12,8 +12,9 @@ export const generateRequestSchema = z.object({
   platforms: z
     .array(z.enum(PLATFORMS))
     .min(1, "Pilih minimal 1 platform.")
-    .max(4, "Maksimal 4 platform.")
-    .transform((arr) => [...new Set(arr)]),
+    // Dedupe DULU lalu batasi: ["twitter","twitter",...4 unik] tetap valid.
+    .transform((arr) => [...new Set(arr)])
+    .refine((arr) => arr.length <= 4, "Maksimal 4 platform."),
   tone: z.enum(TONES),
 });
 
