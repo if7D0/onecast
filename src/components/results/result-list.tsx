@@ -1,12 +1,12 @@
 import { FileWarning } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { MockResult } from "@/types/generation";
+import type { MockResult, Tone } from "@/types/generation";
 import { ResultCard } from "./result-card";
 
 interface ResultListProps {
   results: MockResult[];
   loading: boolean;
-  tone: string;
+  tone: Tone;
   skeletonCount?: number;
 }
 
@@ -39,8 +39,8 @@ export function ResultList({ results, loading, tone, skeletonCount = 2 }: Result
 
   return (
     <div className="grid items-start gap-4 md:grid-cols-2" aria-live="polite">
-      {results.map((r) => (
-        <ResultCard key={r.platform} result={r} tone={tone} />
+      {results.map((r, i) => (
+        <ResultCard key={`${r.platform}-${i}`} result={r} tone={tone} />
       ))}
     </div>
   );

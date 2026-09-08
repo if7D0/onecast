@@ -7,7 +7,6 @@ import { Textarea } from "@/components/ui/textarea";
 
 export const CONTENT_MAX = 5000;
 const FILE_MAX_BYTES = 200 * 1024;
-const ACCEPTED_TYPES = [".txt", ".md", "text/plain", "text/markdown"];
 
 interface ContentInputProps {
   value: string;
@@ -22,11 +21,12 @@ export function ContentInput({ value, onChange }: ContentInputProps) {
   function handleFile(file: File | undefined) {
     setFileError("");
     if (!file) return;
-    const okType =
-      ACCEPTED_TYPES.some((t) => file.name.toLowerCase().endsWith(t)) ||
-      file.type === "text/plain" ||
-      file.type === "text/markdown";
-    if (!okType) {
+    // Ekstensi DAN mime diperiksa terpisah (endsWith("text/plain") tak pernah cocok).
+    // Mime kosong ("") diterima: sebagian OS tak mengenali .md/.txt.
+    const name = file.name.toLowerCase();
+    const okExt = name.endsWith(".txt") || name.endsWith(".md");
+    const okMime = ["text/plain", "text/markdown", ""].includes(file.type);
+    if (!okExt || !okMime) {
       setFileError("Hanya file .txt atau .md yang didukung.");
       return;
     }
@@ -83,9 +83,12 @@ export function ContentInput({ value, onChange }: ContentInputProps) {
           Unggah .txt/.md
         </button>
         {fileName && (
-          <span className="text-muted-foreground inline-flex items-center gap-1 text-xs">
-            <FileText className="h-3.5 w-3.5" aria-hidden />
-            {fileName}
+          <span
+            className="text-muted-foreground inline-flex max-w-[180px] items-center gap-1 text-xs"
+            title={fileName}
+          >
+            <FileText className="h-3.5 w-3.5 shrink-0" aria-hidden />
+            <span className="truncate">{fileName}</span>
           </span>
         )}
       </div>

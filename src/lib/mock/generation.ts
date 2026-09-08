@@ -5,6 +5,10 @@
 import { TONE_LABELS, type MockResult, type Platform, type Tone } from "@/types/generation";
 
 const TWITTER_MAX = 280;
+const EXCERPT_SHORT = 200;
+const LINKEDIN_HOOK = 120;
+const INSTAGRAM_EXCERPT = 150;
+const EMAIL_SUBJECT = 60;
 
 function excerpt(content: string, max: number): string {
   const clean = content.replace(/\s+/g, " ").trim();
@@ -12,9 +16,10 @@ function excerpt(content: string, max: number): string {
   return `${clean.slice(0, max - 1).trimEnd()}…`;
 }
 
+/** Mock deterministik; meniru POST /api/generate {platform,title,body,footer?}. Hapus di Fase 5. */
 export function mockGenerate(content: string, platform: Platform, tone: Tone): MockResult {
   const toneLabel = TONE_LABELS[tone];
-  const short = excerpt(content, 200);
+  const short = excerpt(content, EXCERPT_SHORT);
 
   switch (platform) {
     case "twitter": {
@@ -30,21 +35,21 @@ export function mockGenerate(content: string, platform: Platform, tone: Tone): M
       return {
         platform,
         title: "LinkedIn — contoh hasil",
-        body: `Hook: ${excerpt(content, 120)}\n\nInsight (${toneLabel.toLowerCase()}): ${short}\n\nCTA: Bagaimana pengalaman Anda? Tulis di komentar.`,
+        body: `Hook: ${excerpt(content, LINKEDIN_HOOK)}\n\nInsight (${toneLabel.toLowerCase()}): ${short}\n\nCTA: Bagaimana pengalaman Anda? Tulis di komentar.`,
         footer: "#konten #produktivitas",
       };
     case "instagram":
       return {
         platform,
         title: "Instagram — contoh hasil",
-        body: `${excerpt(content, 150)} ✨\n\nVersi ${toneLabel.toLowerCase()} dari konten Anda. Simpan posting ini biar nggak hilang!`,
+        body: `${excerpt(content, INSTAGRAM_EXCERPT)} ✨\n\nVersi ${toneLabel.toLowerCase()} dari konten Anda. Simpan posting ini biar nggak hilang!`,
         footer: "#konten #kreator #produktivitas",
       };
     case "email":
       return {
         platform,
         title: "Email Newsletter — contoh hasil",
-        body: `Subjek: [${toneLabel}] ${excerpt(content, 60)}\n\nHalo,\n\n${short}\n\nSalam,\nTim OneCast`,
+        body: `Subjek: [${toneLabel}] ${excerpt(content, EMAIL_SUBJECT)}\n\nHalo,\n\n${short}\n\nSalam,\nTim OneCast`,
       };
   }
 }

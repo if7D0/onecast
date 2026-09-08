@@ -20,7 +20,15 @@ export function ToneSelector({ value, onChange }: ToneSelectorProps) {
       <label htmlFor="tone" className="text-sm font-medium">
         Gaya bahasa
       </label>
-      <Select value={value} onValueChange={(v) => onChange(v as Tone)}>
+      <Select
+        value={value}
+        onValueChange={(v) => {
+          // Tolak nilai tak dikenal (jangan cast buta dari komponen UI).
+          if (typeof v === "string" && (TONES as readonly string[]).includes(v)) {
+            onChange(v as Tone);
+          }
+        }}
+      >
         <SelectTrigger id="tone" className="w-full">
           <SelectValue placeholder="Pilih gaya bahasa" />
         </SelectTrigger>

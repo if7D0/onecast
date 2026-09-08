@@ -11,7 +11,7 @@ export function DashboardHeader({ email }: { email: string }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex items-center justify-between border-b p-3 md:hidden">
+    <div className="relative flex items-center justify-between border-b p-3 md:hidden">
       <Button
         type="button"
         variant="ghost"

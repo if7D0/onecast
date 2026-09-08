@@ -42,7 +42,13 @@ export function PlatformSelector({ selected, onChange }: PlatformSelectorProps) 
           return (
             <label
               key={platform}
-              htmlFor={id}
+              onClick={(e) => {
+                // Checkbox base-ui merender <button>, bukan <input>: htmlFor tak
+                // berlaku, jadi seluruh kartu toggle manual. preventDefault cegah
+                // double-fire dari klik langsung di kotak checkbox.
+                e.preventDefault();
+                toggle(platform);
+              }}
               className={cn(
                 "flex cursor-pointer items-center gap-2 rounded-lg border p-3 text-sm transition-colors",
                 checked ? "border-primary bg-muted" : "hover:bg-muted/50"
@@ -52,7 +58,9 @@ export function PlatformSelector({ selected, onChange }: PlatformSelectorProps) 
                 id={id}
                 checked={checked}
                 onCheckedChange={() => toggle(platform)}
+                onClick={(e) => e.stopPropagation()}
                 aria-label={PLATFORM_LABELS[platform]}
+                tabIndex={-1}
               />
               <Icon className="h-4 w-4 shrink-0" aria-hidden />
               <span className="flex min-w-0 flex-col">

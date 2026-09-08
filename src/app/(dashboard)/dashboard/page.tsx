@@ -37,6 +37,7 @@ export default function DashboardPage() {
       return;
     }
     setStatus("loading");
+    if (timer.current !== null) window.clearTimeout(timer.current);
     timer.current = window.setTimeout(() => {
       // Fase 5: ganti blok ini dengan fetch POST /api/generate.
       setResults(platforms.map((p) => mockGenerate(content, p, tone)));

@@ -1,13 +1,26 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 
 export function ThemeToggle() {
-  const { theme, systemTheme, setTheme } = useTheme();
-  const active = theme === "system" ? systemTheme : theme;
-  const next = active === "dark" ? "light" : "dark";
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  // systemTheme undefined pra-hydration → render netral agar tak flicker.
+  if (!mounted) {
+    return (
+      <Button type="button" variant="ghost" size="icon" aria-label="Ganti tema" disabled>
+        <Sun className="h-5 w-5" aria-hidden />
+      </Button>
+    );
+  }
+
+  const next = resolvedTheme === "dark" ? "light" : "dark";
 
   return (
     <Button
@@ -15,7 +28,7 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon"
       aria-label="Ganti tema"
-      title={active === "dark" ? "Ubah ke terang" : "Ubah ke gelap"}
+      title={resolvedTheme === "dark" ? "Ubah ke terang" : "Ubah ke gelap"}
       onClick={() => setTheme(next)}
     >
       <Sun className="h-5 w-5 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />

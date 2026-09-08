@@ -9,7 +9,9 @@ async function copyText(text: string): Promise<boolean> {
     await navigator.clipboard.writeText(text);
     return true;
   } catch {
-    // Fallback untuk konteks non-HTTPS / browser lama.
+    // Fallback untuk konteks non-HTTPS / browser lama. execCommand memang
+    // deprecated, tapi disengaja sebagai cadangan terakhir; primer tetap
+    // navigator.clipboard di atas. Gagal total → false (tombol tetap "Salin").
     try {
       const ta = document.createElement("textarea");
       ta.value = text;

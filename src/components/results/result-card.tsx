@@ -1,6 +1,6 @@
 import { AtSign, Briefcase, Camera, Mail } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { TONE_LABELS, type MockResult } from "@/types/generation";
+import { TONE_LABELS, type MockResult, type Tone } from "@/types/generation";
 import { CopyButton } from "./copy-button";
 
 const PLATFORM_ICONS = {
@@ -10,7 +10,7 @@ const PLATFORM_ICONS = {
   email: Mail,
 } as const;
 
-export function ResultCard({ result, tone }: { result: MockResult; tone: string }) {
+export function ResultCard({ result, tone }: { result: MockResult; tone: Tone }) {
   const Icon = PLATFORM_ICONS[result.platform];
   const fullText = result.footer ? `${result.body}\n\n${result.footer}` : result.body;
 
@@ -24,7 +24,7 @@ export function ResultCard({ result, tone }: { result: MockResult; tone: string 
         <div className="flex gap-2 text-xs">
           <span className="text-muted-foreground rounded-full border px-2 py-0.5">Contoh</span>
           <span className="text-muted-foreground rounded-full border px-2 py-0.5">
-            {TONE_LABELS[tone as keyof typeof TONE_LABELS] ?? tone}
+            {TONE_LABELS[tone]}
           </span>
         </div>
       </CardHeader>
