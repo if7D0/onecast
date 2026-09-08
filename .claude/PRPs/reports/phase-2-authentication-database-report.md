@@ -10,52 +10,52 @@ trigger, login, proteksi HTTP, RLS). Branch: `feat/phase-2-auth-database`.
 
 ## Assessment vs Reality
 
-| Metric     | Predicted (Plan) | Actual                                              |
-| ---------- | ---------------- | --------------------------------------------------- |
-| Complexity | Large            | Large                                               |
-| Confidence | 8/10             | 9/10 (satu bug nyata ditemukan + diperbaiki via E2E) |
-| Files      | 13 created, 3 updated | 15 created, 6 updated (+2 migrasi, README, ignore) |
+| Metric     | Predicted (Plan)      | Actual                                               |
+| ---------- | --------------------- | ---------------------------------------------------- |
+| Complexity | Large                 | Large                                                |
+| Confidence | 8/10                  | 9/10 (satu bug nyata ditemukan + diperbaiki via E2E) |
+| Files      | 13 created, 3 updated | 15 created, 6 updated (+2 migrasi, README, ignore)   |
 
 ## Tasks Completed
 
-| # | Task | Status | Notes |
-| - | ---- | ------ | ----- |
-| 0 | Verifikasi kredensial | done | 3 temuan di `.env` user, semua diperbaiki user via panduan |
-| 1 | Panduan dashboard | done | Checklist + troubleshooting di README |
-| 2 | Install deps | done | `@supabase/ssr` 0.12.6, `supabase-js` 2.116, `zod` 4.5.4 |
-| 3 | Klien + middleware + helpers | done | tsc + lint hijau |
-| 4 | Skema + migrasi + trigger + RLS | done | 2 migrasi live sukses |
-| 5 | Halaman auth + callback + placeholder | done | build 9 route hijau |
-| 6 | E2E + RLS + finalisasi | done | 6/8 otomatis hijau; 2 manual browser (lihat bawah) |
+| #   | Task                                  | Status | Notes                                                      |
+| --- | ------------------------------------- | ------ | ---------------------------------------------------------- |
+| 0   | Verifikasi kredensial                 | done   | 3 temuan di `.env` user, semua diperbaiki user via panduan |
+| 1   | Panduan dashboard                     | done   | Checklist + troubleshooting di README                      |
+| 2   | Install deps                          | done   | `@supabase/ssr` 0.12.6, `supabase-js` 2.116, `zod` 4.5.4   |
+| 3   | Klien + middleware + helpers          | done   | tsc + lint hijau                                           |
+| 4   | Skema + migrasi + trigger + RLS       | done   | 2 migrasi live sukses                                      |
+| 5   | Halaman auth + callback + placeholder | done   | build 9 route hijau                                        |
+| 6   | E2E + RLS + finalisasi                | done   | 6/8 otomatis hijau; 2 manual browser (lihat bawah)         |
 
 ## Validation Results
 
-| Level           | Status | Notes                                                  |
-| --------------- | ------ | ------------------------------------------------------ |
-| Static Analysis | Pass   | `tsc`, `lint` bersih                                   |
-| Format          | Pass   | `prettier --check .` bersih                            |
-| Build           | Pass   | Lokal + CI hijau                                       |
-| E2E API         | Pass   | signup OK, trigger OK, login OK + session, cleanup OK  |
-| E2E HTTP        | Pass   | `/login` 200; `/dashboard` anon → 307 → `/login`       |
-| RLS             | Pass   | REST anon tanpa token: 200 dengan 0 baris              |
+| Level           | Status   | Notes                                                    |
+| --------------- | -------- | -------------------------------------------------------- |
+| Static Analysis | Pass     | `tsc`, `lint` bersih                                     |
+| Format          | Pass     | `prettier --check .` bersih                              |
+| Build           | Pass     | Lokal + CI hijau                                         |
+| E2E API         | Pass     | signup OK, trigger OK, login OK + session, cleanup OK    |
+| E2E HTTP        | Pass     | `/login` 200; `/dashboard` anon → 307 → `/login`         |
+| RLS             | Pass     | REST anon tanpa token: 200 dengan 0 baris                |
 | Manual browser  | Tertunda | Redirect user-login→dashboard, klik Logout, Google OAuth |
 
 ## Files Changed
 
-| File                                                   | Action  |
-| ------------------------------------------------------ | ------- |
-| `src/lib/supabase/{client,server,middleware}.ts`       | CREATED |
-| `middleware.ts`                                        | CREATED |
-| `src/lib/auth/helpers.ts`, `src/lib/validations/auth.ts` | CREATED |
-| `src/app/(auth)/{layout,_components/google-button}`    | CREATED |
-| `src/app/(auth)/login/{page,login-form,actions}`       | CREATED |
-| `src/app/(auth)/register/{page,register-form,actions}` | CREATED |
-| `src/app/auth/callback/route.ts`                       | CREATED |
-| `src/app/(dashboard)/dashboard/{page,actions}`         | CREATED (placeholder bertanda Fase 3) |
-| `prisma/triggers.sql`                                  | CREATED |
-| `prisma/migrations/*/migration.sql` (2x)               | CREATED (live) |
-| `package.json`, `prisma/schema.prisma`, `README.md`    | UPDATED |
-| `.prettierignore` (`prisma/*.sql`), `.claude/*`        | UPDATED |
+| File                                                     | Action                                |
+| -------------------------------------------------------- | ------------------------------------- |
+| `src/lib/supabase/{client,server,middleware}.ts`         | CREATED                               |
+| `middleware.ts`                                          | CREATED                               |
+| `src/lib/auth/helpers.ts`, `src/lib/validations/auth.ts` | CREATED                               |
+| `src/app/(auth)/{layout,_components/google-button}`      | CREATED                               |
+| `src/app/(auth)/login/{page,login-form,actions}`         | CREATED                               |
+| `src/app/(auth)/register/{page,register-form,actions}`   | CREATED                               |
+| `src/app/auth/callback/route.ts`                         | CREATED                               |
+| `src/app/(dashboard)/dashboard/{page,actions}`           | CREATED (placeholder bertanda Fase 3) |
+| `prisma/triggers.sql`                                    | CREATED                               |
+| `prisma/migrations/*/migration.sql` (2x)                 | CREATED (live)                        |
+| `package.json`, `prisma/schema.prisma`, `README.md`      | UPDATED                               |
+| `.prettierignore` (`prisma/*.sql`), `.claude/*`          | UPDATED                               |
 
 ## Deviations from Plan
 
