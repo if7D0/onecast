@@ -3,6 +3,7 @@
 // Output dibentuk agar UI Fase 3/5 tak berubah: {platform,title,body,footer?}.
 
 import { AIError } from "./errors";
+import { MAX_CONTENT_CHARS } from "./prompts";
 import { PLATFORM_LABELS, type MockResult, type Platform, type Tone } from "@/types/generation";
 import { getDefaultProvider } from "./providers/index";
 import type { AIProvider } from "./types";
@@ -40,6 +41,14 @@ export async function generateForPlatforms(
 ): Promise<{ outputs: GenerationOutput[]; metadata: GenerationMetadata }> {
   if (!content.trim()) {
     throw new AIError("INVALID_INPUT", "Konten kosong. Isi konten dulu.", false);
+  }
+  // Validasi panjang di muka: gagal cepat sebelum instantiate provider/API call.
+  if (content.trim().length > MAX_CONTENT_CHARS) {
+    throw new AIError(
+      "INVALID_INPUT",
+      `Konten terlalu panjang (maks ${MAX_CONTENT_CHARS} karakter).`,
+      false
+    );
   }
   if (platforms.length === 0) {
     throw new AIError("INVALID_INPUT", "Pilih minimal 1 platform.", false);

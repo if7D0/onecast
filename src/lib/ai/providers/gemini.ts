@@ -6,12 +6,24 @@ import type { AIProvider, AIResult, GenerateArgs } from "../types";
 import { geminiEnv } from "../env";
 import { buildPrompt } from "../prompts";
 
-/** Ganti 1 baris ini bila model default berubah. 2.5-flash pensiun untuk user baru (404). */
+/**
+ * Model default. Terverifikasi live 2026-09-08 (vitest + skrip mentah).
+ * 2.5-flash pensiun untuk user baru (API 404 "no longer available").
+ * Cek model aktif: aistudio.google.com → models.
+ */
 export const GEMINI_MODEL = "gemini-3.6-flash";
 
 const TIMEOUT_MS = 60_000;
 const MAX_OUTPUT_TOKENS = 1024;
 const TEMPERATURE = 0.7;
+
+// Satu client dipakai ulang antar call (hemat socket/auth). Aman: stateless.
+let cachedClient: GoogleGenAI | null = null;
+
+function client(apiKey: string): GoogleGenAI {
+  if (!cachedClient) cachedClient = new GoogleGenAI({ apiKey });
+  return cachedClient;
+}
 
 function estimateTokens(text: string): number {
   return Math.max(1, Math.ceil(text.length / 4));
@@ -25,7 +37,7 @@ export class GeminiProvider implements AIProvider {
     const { apiKey } = geminiEnv();
 
     try {
-      const ai = new GoogleGenAI({ apiKey });
+      const ai = client(apiKey);
       const res = await ai.models.generateContent({
         model: GEMINI_MODEL,
         contents: prompt,

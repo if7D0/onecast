@@ -55,7 +55,6 @@ export function mapProviderError(e: unknown, providerName: string): AIError {
     );
   }
   if (
-    status === 400 ||
     status === 401 ||
     status === 403 ||
     msg.includes("api key") ||
@@ -65,13 +64,21 @@ export function mapProviderError(e: unknown, providerName: string): AIError {
   ) {
     return new AIError("INVALID_KEY", "Kunci API AI tidak valid. Hubungi admin.", false);
   }
-  // Timeout/abort datang dalam banyak bentuk (DOMException beda realm,
-  // undici "This operation was aborted", AbortError) — kenali via nama/pesan.
-  const errName = e instanceof Error ? e.name : "";
-  if (errName === "TimeoutError" || errName === "AbortError" || /abort|timed?\s?out/i.test(msg)) {
-    return new AIError("PROVIDER_DOWN", `Provider ${providerName} timeout. Coba lagi.`, true);
+  if (status === 400) {
+    // 400 = argumen/model/konten ditolak — bukan kunci salah. Jangan suruh user
+    // menghubungi admin untuk masalah konten.
+    return new AIError(
+      "INVALID_INPUT",
+      "Permintaan ditolak provider AI. Coba sederhanakan konten.",
+      false
+    );
   }
-  if (e instanceof DOMException && e.name === "TimeoutError") {
+  // Timeout/abort datang dalam banyak bentuk: DOMException beda realm (bukan
+  // instanceof Error realm ini), undici "This operation was aborted", AbortError.
+  // Satu cek nama + pesan mencakup semuanya.
+  const errName =
+    typeof (e as { name?: unknown })?.name === "string" ? (e as { name: string }).name : "";
+  if (errName === "TimeoutError" || errName === "AbortError" || /abort|timed?\s?out/i.test(msg)) {
     return new AIError("PROVIDER_DOWN", `Provider ${providerName} timeout. Coba lagi.`, true);
   }
   if (status === 404) {

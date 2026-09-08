@@ -34,5 +34,8 @@ export function buildPrompt(content: string, platform: Platform, tone: Tone): st
       return instagramPrompt(trimmed, tone);
     case "email":
       return emailPrompt(trimmed, tone);
+    default:
+      // Exhaustive guard: Fase 5 menerima platform dari request body user.
+      throw new AIError("INVALID_INPUT", `Platform tidak dikenal: ${platform}`, false);
   }
 }
