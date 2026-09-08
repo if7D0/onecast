@@ -9,21 +9,21 @@ kontrak env Supabase + Prettier/VS Code + repo GitHub
 
 ## Assessment vs Reality
 
-| Metric     | Predicted (Plan) | Actual                                    |
-| ---------- | ---------------- | ----------------------------------------- |
-| Complexity | Medium           | Medium                                    |
-| Confidence | 9/10             | 8/10 (3 deviasi, semua teratasi)          |
-| Files      | ~18 created      | 38 created (termasuk lockfile, svg, ui)   |
+| Metric     | Predicted (Plan) | Actual                                  |
+| ---------- | ---------------- | --------------------------------------- |
+| Complexity | Medium           | Medium                                  |
+| Confidence | 9/10             | 8/10 (3 deviasi, semua teratasi)        |
+| Files      | ~18 created      | 38 created (termasuk lockfile, svg, ui) |
 
 ## Tasks Completed
 
-| # | Task                              | Status | Notes                                   |
-| - | --------------------------------- | ------ | --------------------------------------- |
-| 1 | Scaffold Next.js                  | done   | Deviasi D1, D2 (lihat bawah)            |
-| 2 | Tailwind v4 + shadcn + next-themes | done  | Deviasi D3; komponen: button card input textarea select checkbox skeleton |
-| 3 | Supabase env + Prisma + singleton | done   | Deviasi D4; tanpa kredensial live (butuh user) |
-| 4 | Prettier + VS Code                | done   | —                                       |
-| 5 | Git + CI + docs                   | done   | 2x fix CI (DATABASE_URL dummy, format README) |
+| #   | Task                               | Status | Notes                                                                     |
+| --- | ---------------------------------- | ------ | ------------------------------------------------------------------------- |
+| 1   | Scaffold Next.js                   | done   | Deviasi D1, D2 (lihat bawah)                                              |
+| 2   | Tailwind v4 + shadcn + next-themes | done   | Deviasi D3; komponen: button card input textarea select checkbox skeleton |
+| 3   | Supabase env + Prisma + singleton  | done   | Deviasi D4; tanpa kredensial live (butuh user)                            |
+| 4   | Prettier + VS Code                 | done   | —                                                                         |
+| 5   | Git + CI + docs                    | done   | 2x fix CI (DATABASE_URL dummy, format README)                             |
 
 ## Validation Results
 
@@ -40,20 +40,20 @@ CI: `npm ci → tsc → lint → prettier → build` sukses
 
 ## Files Changed (utama)
 
-| File                              | Action  |
-| --------------------------------- | ------- |
-| `package.json`                    | CREATED (nama `onecast`, `postinstall: prisma generate`) |
-| `src/app/*`, `next.config.ts`, `tsconfig.json` | CREATED (scaffold) |
-| `eslint.config.mjs`               | CREATED (FlatCompat, kompatibel v15) |
-| `components.json`, `src/components/ui/*`, `src/lib/utils.ts` | CREATED (shadcn) |
-| `prisma/schema.prisma` (model User minimal), `prisma.config.ts` | CREATED |
-| `src/lib/db/client.ts`            | CREATED (singleton Prisma) |
-| `.env` (placeholder), `.env.example` | CREATED |
-| `.prettierrc.json`, `.prettierignore`, `.vscode/settings.json` | CREATED |
-| `.github/workflows/deploy.yml`    | CREATED |
-| `README.md`                       | CREATED (panduan OneCast) |
-| `.gitignore`                      | UPDATED (`!.env.example`) |
-| `src/app/layout.tsx`              | UPDATED (hapus `LayoutProps` Next 16) |
+| File                                                            | Action                                                   |
+| --------------------------------------------------------------- | -------------------------------------------------------- |
+| `package.json`                                                  | CREATED (nama `onecast`, `postinstall: prisma generate`) |
+| `src/app/*`, `next.config.ts`, `tsconfig.json`                  | CREATED (scaffold)                                       |
+| `eslint.config.mjs`                                             | CREATED (FlatCompat, kompatibel v15)                     |
+| `components.json`, `src/components/ui/*`, `src/lib/utils.ts`    | CREATED (shadcn)                                         |
+| `prisma/schema.prisma` (model User minimal), `prisma.config.ts` | CREATED                                                  |
+| `src/lib/db/client.ts`                                          | CREATED (singleton Prisma)                               |
+| `.env` (placeholder), `.env.example`                            | CREATED                                                  |
+| `.prettierrc.json`, `.prettierignore`, `.vscode/settings.json`  | CREATED                                                  |
+| `.github/workflows/deploy.yml`                                  | CREATED                                                  |
+| `README.md`                                                     | CREATED (panduan OneCast)                                |
+| `.gitignore`                                                    | UPDATED (`!.env.example`)                                |
+| `src/app/layout.tsx`                                            | UPDATED (hapus `LayoutProps` Next 16)                    |
 
 ## Deviations from Plan
 

@@ -333,7 +333,7 @@ model Generation {
 | # | Phase | Duration | Status | Parallel | Depends |
 |---|-------|----------|--------|----------|---------|
 | 1 | Project Setup & Infrastructure | 2 days | complete | - | - |
-| 2 | Authentication & Database | 3 days | pending | - | 1 |
+| 2 | Authentication & Database | 3 days | in-progress | - | 1 |
 | 3 | Core UI (Landing + Dashboard) | 4 days | pending | - | 1 |
 | 4 | AI Integration (Primary) | 3 days | pending | with 5 | 2 |
 | 5 | Generation Flow (API + UI) | 4 days | pending | with 4 | 2, 3 |
@@ -389,6 +389,8 @@ model Generation {
 - Auth context/provider
 - Protected route middleware
 - Database tables: `users`, `generations`
+
+**Plan**: `.claude/PRPs/plans/phase-2-authentication-database.plan.md`
 
 ---
 
