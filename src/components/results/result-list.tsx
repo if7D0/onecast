@@ -8,9 +8,17 @@ interface ResultListProps {
   loading: boolean;
   tone: Tone;
   skeletonCount?: number;
+  /** Label badge tiap kartu: "Contoh" (mock) atau "AI" (hasil nyata). */
+  badge?: string;
 }
 
-export function ResultList({ results, loading, tone, skeletonCount = 2 }: ResultListProps) {
+export function ResultList({
+  results,
+  loading,
+  tone,
+  skeletonCount = 2,
+  badge = "Contoh",
+}: ResultListProps) {
   if (loading) {
     return (
       <div className="grid gap-4 md:grid-cols-2" aria-busy="true" aria-label="Membuat hasil…">
@@ -40,7 +48,7 @@ export function ResultList({ results, loading, tone, skeletonCount = 2 }: Result
   return (
     <div className="grid items-start gap-4 md:grid-cols-2" aria-live="polite">
       {results.map((r, i) => (
-        <ResultCard key={`${r.platform}-${i}`} result={r} tone={tone} />
+        <ResultCard key={`${r.platform}-${i}`} result={r} tone={tone} badge={badge} />
       ))}
     </div>
   );

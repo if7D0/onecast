@@ -336,7 +336,7 @@ model Generation {
 | 2 | Authentication & Database | 3 days | complete | - | 1 |
 | 3 | Core UI (Landing + Dashboard) | 4 days | complete | - | 1 |
 | 4 | AI Integration (Primary) | 3 days | complete | with 5 | 2 |
-| 5 | Generation Flow (API + UI) | 4 days | pending | with 4 | 2, 3 |
+| 5 | Generation Flow (API + UI) | 4 days | complete | with 4 | 2, 3 |
 | 6 | History & Persistence | 2 days | pending | - | 5 |
 | 7 | Fallback AI Providers | 2 days | pending | - | 4 |
 | 8 | Testing & Optimization | 3 days | pending | - | 6, 7 |
@@ -472,6 +472,9 @@ model Generation {
 - Rate limiting middleware
 - Error handling
 - Loading states
+
+**Plan**: `.claude/PRPs/plans/phase-5-generation-flow-api-ui.plan.md`
+**Report**: `.claude/PRPs/reports/phase-5-generation-flow-api-ui-report.md`
 
 ---
 
