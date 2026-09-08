@@ -106,6 +106,16 @@ Provider primer: Google Gemini Flash (`@google/genai`, model `gemini-3.6-flash`)
 
 Catatan: `gemini-2.5-flash` sudah pensiun untuk user baru (API 404) — jangan dipakai.
 
+## API Generate (Fase 5)
+
+`POST /api/generate` (login wajib) — body: `{content, platforms[], tone}`.
+Respons sukses: `{success, data: {[platform]: {variations: [{text, characterCount}]}},
+metadata: {provider, tokensUsed, generationTime}}`.
+
+- **Rate limit**: 5x/jam per user (dihitung dari DB). Habis → `429` +
+  `retryAfterSec`. Setiap generate tersimpan (1 baris/platform) untuk histori Fase 6.
+- **Error**: 400 validasi, 401 anon, 502 AI gangguan, 500 tak dikenal.
+
 ### Troubleshooting
 
 | Gejala                                  | Penyebab & solusi                                         |

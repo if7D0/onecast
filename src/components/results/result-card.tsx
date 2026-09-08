@@ -10,7 +10,15 @@ const PLATFORM_ICONS = {
   email: Mail,
 } as const;
 
-export function ResultCard({ result, tone }: { result: MockResult; tone: Tone }) {
+export function ResultCard({
+  result,
+  tone,
+  badge = "Contoh",
+}: {
+  result: MockResult;
+  tone: Tone;
+  badge?: string;
+}) {
   const Icon = PLATFORM_ICONS[result.platform];
   const fullText = result.footer ? `${result.body}\n\n${result.footer}` : result.body;
 
@@ -22,7 +30,7 @@ export function ResultCard({ result, tone }: { result: MockResult; tone: Tone })
           {result.title}
         </CardTitle>
         <div className="flex gap-2 text-xs">
-          <span className="text-muted-foreground rounded-full border px-2 py-0.5">Contoh</span>
+          <span className="text-muted-foreground rounded-full border px-2 py-0.5">{badge}</span>
           <span className="text-muted-foreground rounded-full border px-2 py-0.5">
             {TONE_LABELS[tone]}
           </span>
