@@ -37,6 +37,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local AI tooling (skills, generated design docs) — bukan kode aplikasi
+.opencode/
+design-system/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
