@@ -34,7 +34,11 @@ export function GoogleButton({ label }: { label: string }) {
       >
         {pending ? "Menghubungkan..." : label}
       </Button>
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && (
+        <p role="alert" aria-live="polite" className="text-sm text-red-600">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

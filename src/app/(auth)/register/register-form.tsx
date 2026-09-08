@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { NAME_MAX, PASSWORD_MAX, PASSWORD_MIN } from "@/lib/validations/auth";
 import { GoogleButton } from "../_components/google-button";
 import { register } from "./actions";
 
@@ -18,7 +19,7 @@ export function RegisterForm() {
           <label htmlFor="name" className="text-sm font-medium">
             Nama (opsional)
           </label>
-          <Input id="name" name="name" type="text" autoComplete="name" maxLength={100} />
+          <Input id="name" name="name" type="text" autoComplete="name" maxLength={NAME_MAX} />
         </div>
         <div className="space-y-2">
           <label htmlFor="email" className="text-sm font-medium">
@@ -28,14 +29,15 @@ export function RegisterForm() {
         </div>
         <div className="space-y-2">
           <label htmlFor="password" className="text-sm font-medium">
-            Password (min. 8 karakter)
+            Password (min. {PASSWORD_MIN} karakter)
           </label>
           <Input
             id="password"
             name="password"
             type="password"
             autoComplete="new-password"
-            minLength={8}
+            minLength={PASSWORD_MIN}
+            maxLength={PASSWORD_MAX}
             required
           />
         </div>
@@ -51,8 +53,16 @@ export function RegisterForm() {
             required
           />
         </div>
-        {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
-        {state?.info && <p className="text-sm text-green-700">{state.info}</p>}
+        {state?.error && (
+          <p role="alert" aria-live="polite" className="text-sm text-red-600">
+            {state.error}
+          </p>
+        )}
+        {state?.info && (
+          <p role="status" aria-live="polite" className="text-sm text-green-700">
+            {state.info}
+          </p>
+        )}
         <Button type="submit" className="w-full" disabled={pending}>
           {pending ? "Memproses..." : "Daftar"}
         </Button>

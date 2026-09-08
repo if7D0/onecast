@@ -106,6 +106,16 @@ Login memakai Supabase Auth: email/password + Google OAuth.
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` kosong  | Ambil ulang di Settings → API (publishable/anon key)      |
 | Jangan bungkus nilai `.env` dengan `[]` | Tempel mentah tanpa kurung siku/spasi                     |
 
+### Batas yang diketahui (tracking)
+
+- **Rate limit in-memory** (`src/lib/rate-limit.ts`): berlaku per instance
+  saja — di serverless multi-instance, batas longgar. Ganti Upstash Redis
+  saat butuh limit terdistribusi. Throttling bawaan Supabase Auth tetap jalan.
+- **Security headers/CSP**: belum ada — masuk Fase 3 (`next.config.ts`).
+- **Dependensi**: `npm audit` melaporkan HIGH transitif (postcss via Next 15,
+  deepmerge-ts via Prisma). Jangan `audit fix --force` (menarik breaking
+  Next 16/Prisma 8); bump terjadwal saat versi stabil + Dependabot.
+
 ## Lisensi
 
 MIT (ditambahkan di Fase 9).
