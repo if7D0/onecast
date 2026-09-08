@@ -335,7 +335,7 @@ model Generation {
 | 1 | Project Setup & Infrastructure | 2 days | complete | - | - |
 | 2 | Authentication & Database | 3 days | complete | - | 1 |
 | 3 | Core UI (Landing + Dashboard) | 4 days | complete | - | 1 |
-| 4 | AI Integration (Primary) | 3 days | pending | with 5 | 2 |
+| 4 | AI Integration (Primary) | 3 days | complete | with 5 | 2 |
 | 5 | Generation Flow (API + UI) | 4 days | pending | with 4 | 2, 3 |
 | 6 | History & Persistence | 2 days | pending | - | 5 |
 | 7 | Fallback AI Providers | 2 days | pending | - | 4 |
@@ -445,6 +445,9 @@ model Generation {
 - AI service module (`src/lib/ai/`)
 - Prompt templates (`src/lib/ai/prompts/`)
 - Provider implementation (`src/lib/ai/providers/gemini.ts`)
+
+**Plan**: `.claude/PRPs/plans/phase-4-ai-integration-primary.plan.md`
+**Report**: `.claude/PRPs/reports/phase-4-ai-integration-primary-report.md`
 
 ---
 

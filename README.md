@@ -96,6 +96,16 @@ Login memakai Supabase Auth: email/password + Google OAuth.
 5. **Database**: migrasi via koneksi DIRECT (bukan pooler):
    `$env:DATABASE_URL = $env:DIRECT_URL; npx prisma migrate dev`
 
+## AI (Fase 4)
+
+Provider primer: Google Gemini Flash (`@google/genai`, model `gemini-3.6-flash`).
+
+1. Buat key gratis di **aistudio.google.com/apikey**.
+2. Isi `GOOGLE_AI_API_KEY` di `.env` (server-only, tanpa `NEXT_PUBLIC_`).
+3. Uji: `npm test` (test live otomatis jalan bila key ada, skip bila tidak).
+
+Catatan: `gemini-2.5-flash` sudah pensiun untuk user baru (API 404) — jangan dipakai.
+
 ### Troubleshooting
 
 | Gejala                                  | Penyebab & solusi                                         |
@@ -105,6 +115,8 @@ Login memakai Supabase Auth: email/password + Google OAuth.
 | Signup error "Database error"           | Trigger gagal — cek Postgres Logs di dashboard            |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` kosong  | Ambil ulang di Settings → API (publishable/anon key)      |
 | Jangan bungkus nilai `.env` dengan `[]` | Tempel mentah tanpa kurung siku/spasi                     |
+| AI "Model tidak tersedia" (404)         | Model pensiun — ganti konstanta `GEMINI_MODEL`            |
+| AI timeout berulang                     | Model thinking lambat; timeout 60 dtk, coba lagi          |
 
 ### Batas yang diketahui (tracking)
 
