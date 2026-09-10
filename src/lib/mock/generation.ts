@@ -42,7 +42,7 @@ export function mockGenerate(content: string, platform: Platform, tone: Tone): M
       return {
         platform,
         title: "Instagram — contoh hasil",
-        body: `${excerpt(content, INSTAGRAM_EXCERPT)} ✨\n\nVersi ${toneLabel.toLowerCase()} dari konten Anda. Simpan posting ini biar nggak hilang!`,
+        body: `${excerpt(content, INSTAGRAM_EXCERPT)} ✨\n\nVersi ${toneLabel.toLowerCase()} dari konten Anda. Simpan untuk dibaca lagi.`,
         footer: "#konten #kreator #produktivitas",
       };
     case "email":

@@ -35,7 +35,7 @@ export default function OpenGraphImage() {
         Ubah satu konten jadi siap-post di semua platform
       </div>
       <div style={{ fontSize: 32, color: "#a1a1aa", marginTop: 24 }}>
-        X • LinkedIn • Instagram • Newsletter — dalam &lt;5 menit
+        X • LinkedIn • Instagram • Newsletter, kurang dari 5 menit
       </div>
     </div>,
     { ...size }

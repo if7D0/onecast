@@ -25,7 +25,7 @@ export function GenerateButton({ loading, disabled, onClick }: GenerateButtonPro
       ) : (
         <>
           <Sparkles className="h-4 w-4" aria-hidden />
-          Generate
+          Buat konten
         </>
       )}
     </Button>

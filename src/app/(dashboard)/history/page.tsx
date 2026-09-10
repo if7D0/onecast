@@ -36,7 +36,7 @@ export default async function HistoryPage() {
       <div>
         <h1 className="text-2xl font-bold">Riwayat</h1>
         <p className="text-muted-foreground text-sm">
-          Semua hasil generate Anda. Arahkan kursor untuk menyalin, hapus bila tak perlu.
+          Semua hasil generate Anda. Salin yang perlu, hapus sisanya.
         </p>
       </div>
       <HistoryList initialItems={first.items.map(toEntry)} initialTotal={first.total} />

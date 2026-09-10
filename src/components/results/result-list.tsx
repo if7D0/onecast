@@ -39,7 +39,7 @@ export function ResultList({
         <FileWarning className="text-muted-foreground h-6 w-6" aria-hidden />
         <p className="text-sm font-medium">Belum ada hasil</p>
         <p className="text-muted-foreground text-sm">
-          Isi konten, pilih minimal 1 platform, lalu klik Generate.
+          Isi konten, pilih minimal 1 platform, lalu klik Buat konten.
         </p>
       </div>
     );
