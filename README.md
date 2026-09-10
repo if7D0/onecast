@@ -116,6 +116,13 @@ metadata: {provider, tokensUsed, generationTime}}`.
   `retryAfterSec`. Setiap generate tersimpan (1 baris/platform) untuk histori Fase 6.
 - **Error**: 400 validasi, 401 anon, 502 AI gangguan, 500 tak dikenal.
 
+## API History (Fase 6)
+
+- `GET /api/history?page=1&limit=10&platform=twitter` (login wajib) →
+  `{success, data: [{id, input(100 char), platform, tone, outputs, createdAt}],
+pagination: {page, limit, total, hasMore}}`. Query salah → 400.
+- `DELETE /api/history/[id]` → `{success:true}`; tak ada/bukan milik → 404 seragam.
+
 ### Troubleshooting
 
 | Gejala                                  | Penyebab & solusi                                         |

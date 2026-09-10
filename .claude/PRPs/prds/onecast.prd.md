@@ -337,7 +337,7 @@ model Generation {
 | 3 | Core UI (Landing + Dashboard) | 4 days | complete | - | 1 |
 | 4 | AI Integration (Primary) | 3 days | complete | with 5 | 2 |
 | 5 | Generation Flow (API + UI) | 4 days | complete | with 4 | 2, 3 |
-| 6 | History & Persistence | 2 days | pending | - | 5 |
+| 6 | History & Persistence | 2 days | complete | - | 5 |
 | 7 | Fallback AI Providers | 2 days | pending | - | 4 |
 | 8 | Testing & Optimization | 3 days | pending | - | 6, 7 |
 | 9 | Deploy & Documentation | 2 days | pending | - | 8 |
@@ -496,6 +496,9 @@ model Generation {
 - History page (`/history`)
 - Database persistence
 - CRUD operations untuk history
+
+**Plan**: `.claude/PRPs/plans/phase-6-history-persistence.plan.md`
+**Report**: `.claude/PRPs/reports/phase-6-history-persistence-report.md`
 
 ---
 

@@ -85,3 +85,46 @@ export async function saveGenerations(inputs: SaveGenerationInput[]): Promise<nu
   });
   return res.count;
 }
+
+export interface ListHistoryOptions {
+  page?: number;
+  limit?: number;
+  platform?: Platform;
+}
+
+export interface HistoryItem {
+  id: string;
+  input: string;
+  platform: string;
+  tone: string;
+  outputs: unknown;
+  createdAt: Date;
+}
+
+/** Daftar riwayat user (terbaru dulu) + total untuk paginasi. */
+export async function listGenerations(
+  userId: string,
+  { page = 1, limit = 10, platform }: ListHistoryOptions = {}
+): Promise<{ items: HistoryItem[]; total: number }> {
+  const where = { userId, ...(platform ? { platform } : {}) };
+  const [items, total] = await Promise.all([
+    prisma.generation.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      skip: (page - 1) * limit,
+      take: limit,
+      select: { id: true, input: true, platform: true, tone: true, outputs: true, createdAt: true },
+    }),
+    prisma.generation.count({ where }),
+  ]);
+  return { items, total };
+}
+
+/**
+ * Hapus 1 baris milik user. true bila terhapus; false bila tak ada/bukan milik
+ * (sengaja seragam — anti enumeration kepemilikan).
+ */
+export async function deleteGeneration(userId: string, id: string): Promise<boolean> {
+  const res = await prisma.generation.deleteMany({ where: { id, userId } });
+  return res.count > 0;
+}

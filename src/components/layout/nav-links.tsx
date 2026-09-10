@@ -24,15 +24,18 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
         <PlusCircle className="h-4 w-4" aria-hidden />
         Buat Baru
       </Link>
-      <span
-        aria-disabled="true"
-        title="Riwayat generate hadir di Fase 6"
-        className="text-muted-foreground/60 flex cursor-not-allowed items-center gap-2 rounded-lg px-3 py-2 text-sm"
+      <Link
+        href="/history"
+        onClick={onNavigate}
+        aria-current={pathname === "/history" ? "page" : undefined}
+        className={cn(
+          "flex items-center gap-2 rounded-lg px-3 py-2 text-sm",
+          pathname === "/history" ? active : idle
+        )}
       >
         <History className="h-4 w-4" aria-hidden />
         Riwayat
-        <span className="ml-auto rounded-full border px-2 py-0.5 text-xs">Segera</span>
-      </span>
+      </Link>
     </nav>
   );
 }
