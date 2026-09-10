@@ -23,10 +23,12 @@ export function ResultCard({
   const fullText = result.footer ? `${result.body}\n\n${result.footer}` : result.body;
 
   return (
-    <Card>
+    <Card className="hover:border-primary transition-colors duration-200">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-base">
-          <Icon className="h-4 w-4 shrink-0" aria-hidden />
+          <span className="bg-primary/10 flex h-7 w-7 items-center justify-center rounded-lg">
+            <Icon className="text-primary h-4 w-4 shrink-0" aria-hidden />
+          </span>
           {result.title}
         </CardTitle>
         <div className="flex gap-2 text-xs">

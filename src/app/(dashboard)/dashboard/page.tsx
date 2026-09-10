@@ -74,14 +74,14 @@ export default function DashboardPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Buat konten baru</h1>
+        <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Buat konten baru</h1>
         <p className="text-muted-foreground text-sm">
           Tempel konten, pilih platform dan gaya bahasa, lalu generate.
         </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <div className="space-y-4">
+      <div className="grid items-start gap-6 lg:grid-cols-2">
+        <div className="bg-card space-y-4 rounded-2xl border p-5 sm:p-6">
           <ContentInput value={content} onChange={setContent} />
           <PlatformSelector selected={platforms} onChange={setPlatforms} />
           <ToneSelector value={tone} onChange={setTone} />
@@ -101,8 +101,8 @@ export default function DashboardPage() {
             </p>
           )}
         </div>
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold">Hasil</h2>
+        <div className="space-y-4 lg:sticky lg:top-6">
+          <h2 className="text-lg font-bold tracking-tight">Hasil</h2>
           <ResultList results={results} loading={loading} tone={tone} badge="AI" />
         </div>
       </div>

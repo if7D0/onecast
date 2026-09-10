@@ -132,5 +132,40 @@
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+  }
+  ::selection {
+    background: var(--color-primary);
+    color: #fff;
+  }
+}
+
+/* Pola dot-grid halus untuk hero — flat, tanpa gradien warna. */
+@utility bg-dot-grid {
+  background-image: radial-gradient(circle, var(--color-border) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Angkat halus untuk mockup hero. Nonaktif saat reduced-motion. */
+@utility animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-float-slow {
+    animation: none;
   }
 }

@@ -34,7 +34,7 @@ export default async function HistoryPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Riwayat</h1>
+        <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Riwayat</h1>
         <p className="text-muted-foreground text-sm">
           Semua hasil generate Anda. Salin yang perlu, hapus sisanya.
         </p>

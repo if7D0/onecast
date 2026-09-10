@@ -13,6 +13,7 @@ export function GenerateButton({ loading, disabled, onClick }: GenerateButtonPro
   return (
     <Button
       type="button"
+      size="lg"
       className="w-full sm:w-auto"
       disabled={disabled || loading}
       onClick={onClick}
