@@ -12,12 +12,19 @@ jobs:
     # variabelnya ada, tidak butuh koneksi DB live.
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+      # Dummy agar prerender build lolos guard supabaseEnv (tanpa koneksi live):
+      # getUser() tanpa token langsung null tanpa network; halaman terproteksi
+      # otomatis dynamic via cookies().
+      NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-dummy-key
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # jsdom 30 (test komponen) butuh API yang hanya ada di Node 22+.
+          # Samakan dengan versi dev lokal yang terverifikasi hijau.
+          node-version: 24
           cache: npm
 
       - run: npm ci
