@@ -54,39 +54,74 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         {/* Hero */}
-        <section
-          aria-labelledby="hero-heading"
-          className="mx-auto max-w-6xl px-4 pt-16 pb-12 text-center sm:px-6 sm:pt-24"
-        >
-          <p className="bg-cta text-cta-foreground mb-4 inline-block rounded-full px-3 py-1 text-xs font-semibold">
-            Gratis &amp; open-source
-          </p>
-          <h1
-            id="hero-heading"
-            className="mx-auto max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl"
-          >
-            Ubah satu konten jadi siap-post di semua platform
-          </h1>
-          <p className="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg">
-            Tempel blog, transkrip, atau catatan. Dapat versi X, LinkedIn, Instagram, dan newsletter
-            dalam hitungan menit.
-          </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              href="/register"
-              className="bg-cta text-cta-foreground inline-flex h-9 items-center justify-center gap-1.5 rounded-lg px-2.5 text-sm font-semibold whitespace-nowrap transition-opacity hover:opacity-90"
-            >
-              Mulai Gratis
-            </Link>
-            <Link href="#cara-kerja" className={buttonVariants({ size: "lg", variant: "outline" })}>
-              Lihat cara kerja
-            </Link>
+        <section aria-labelledby="hero-heading" className="relative overflow-hidden">
+          <div aria-hidden className="bg-dot-grid absolute inset-0 opacity-60" />
+          <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 pt-16 pb-12 sm:px-6 sm:pt-24 lg:grid-cols-2">
+            <div className="text-center lg:text-left">
+              <p className="bg-cta text-cta-foreground mb-4 inline-block rounded-full px-3 py-1 text-xs font-semibold">
+                Gratis &amp; open-source
+              </p>
+              <h1
+                id="hero-heading"
+                className="mx-auto max-w-3xl text-4xl font-extrabold tracking-tight text-balance sm:text-5xl lg:text-6xl"
+              >
+                Ubah satu konten jadi siap-post di semua platform
+              </h1>
+              <p className="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg">
+                Tempel blog, transkrip, atau catatan. Dapat versi X, LinkedIn, Instagram, dan
+                newsletter dalam hitungan menit.
+              </p>
+              <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
+                <Link href="/register" className={buttonVariants({ size: "lg" })}>
+                  Mulai Gratis
+                </Link>
+                <Link
+                  href="#cara-kerja"
+                  className={buttonVariants({ size: "lg", variant: "outline" })}
+                >
+                  Lihat cara kerja
+                </Link>
+              </div>
+              <div className="mt-8 flex items-center justify-center gap-3 lg:justify-start">
+                {[AtSign, Briefcase, Camera, Mail].map((Icon, i) => (
+                  <span
+                    key={i}
+                    className="bg-card flex h-10 w-10 items-center justify-center rounded-xl border"
+                  >
+                    <Icon className="text-primary h-5 w-5" aria-hidden />
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+              <div
+                aria-hidden
+                className="bg-card absolute -top-4 -right-4 h-full w-full rotate-3 rounded-2xl border"
+              />
+              <div
+                aria-hidden
+                className="bg-muted absolute -bottom-4 -left-4 h-full w-full -rotate-2 rounded-2xl border"
+              />
+              <div className="animate-float-slow relative">
+                <ResultCard
+                  result={mockGenerate(
+                    "OneCast mengubah satu konten menjadi siap-post di semua platform dalam hitungan menit.",
+                    "twitter",
+                    "casual"
+                  )}
+                  tone="casual"
+                />
+              </div>
+            </div>
           </div>
         </section>
 
         {/* Demo produk */}
         <section aria-labelledby="demo-heading" className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-          <h2 id="demo-heading" className="text-center text-2xl font-bold sm:text-3xl">
+          <h2
+            id="demo-heading"
+            className="text-center text-2xl font-extrabold tracking-tight sm:text-3xl"
+          >
             Lihat contoh hasilnya
           </h2>
           <p className="text-muted-foreground mx-auto mt-2 max-w-xl text-center">
@@ -131,7 +166,10 @@ export default function Home() {
           id="fitur"
           className="mx-auto max-w-6xl scroll-mt-20 px-4 py-12 sm:px-6"
         >
-          <h2 id="fitur-heading" className="text-center text-2xl font-bold sm:text-3xl">
+          <h2
+            id="fitur-heading"
+            className="text-center text-2xl font-extrabold tracking-tight sm:text-3xl"
+          >
             Satu konten, empat format
           </h2>
           <p className="text-muted-foreground mx-auto mt-2 max-w-xl text-center">
@@ -139,9 +177,11 @@ export default function Home() {
           </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {FEATURES.map((f) => (
-              <Card key={f.title}>
+              <Card key={f.title} className="hover:border-primary transition-colors duration-200">
                 <CardHeader>
-                  <f.icon className="h-6 w-6" aria-hidden />
+                  <span className="bg-primary/10 mb-1 flex h-11 w-11 items-center justify-center rounded-xl">
+                    <f.icon className="text-primary h-6 w-6" aria-hidden />
+                  </span>
                   <CardTitle className="text-lg">{f.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -158,14 +198,23 @@ export default function Home() {
           id="cara-kerja"
           className="mx-auto max-w-6xl scroll-mt-20 px-4 py-12 sm:px-6"
         >
-          <h2 id="cara-kerja-heading" className="text-center text-2xl font-bold sm:text-3xl">
+          <h2
+            id="cara-kerja-heading"
+            className="text-center text-2xl font-extrabold tracking-tight sm:text-3xl"
+          >
             Cara kerja
           </h2>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {STEPS.map((s) => (
-              <Card key={s.title}>
+            {STEPS.map((s, i) => (
+              <Card key={s.title} className="relative overflow-hidden">
+                <span
+                  aria-hidden
+                  className="text-primary/10 pointer-events-none absolute -top-3 right-3 text-8xl font-extrabold tabular-nums select-none"
+                >
+                  {i + 1}
+                </span>
                 <CardHeader>
-                  <s.icon className="h-6 w-6" aria-hidden />
+                  <s.icon className="text-primary h-6 w-6" aria-hidden />
                   <CardTitle className="text-lg">{s.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -182,17 +231,23 @@ export default function Home() {
 
         {/* CTA */}
         <section aria-labelledby="cta-heading" className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-          <Card className="bg-muted/50 text-center">
+          <Card className="bg-primary text-primary-foreground border-primary overflow-hidden text-center">
             <CardHeader>
-              <CardTitle id="cta-heading" className="text-2xl sm:text-3xl">
+              <CardTitle
+                id="cta-heading"
+                className="text-2xl font-extrabold tracking-tight sm:text-3xl"
+              >
                 Siap posting ke mana-mana?
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <p className="text-muted-foreground mx-auto max-w-xl">
+            <CardContent className="space-y-5">
+              <p className="mx-auto max-w-xl opacity-90">
                 Daftar gratis, tanpa kartu kredit. Kami simpan semua hasil di riwayat.
               </p>
-              <Link href="/register" className={buttonVariants({ size: "lg" })}>
+              <Link
+                href="/register"
+                className="bg-cta text-cta-foreground inline-flex h-11 items-center justify-center gap-1.5 rounded-lg px-6 text-sm font-semibold whitespace-nowrap transition-opacity hover:opacity-90"
+              >
                 Buat akun gratis
               </Link>
             </CardContent>
