@@ -125,6 +125,27 @@ Catatan: model OpenRouter `openrouter/free` non-deterministik (dipilih acak
 dari model gratis) — disengaja untuk ketersediaan. Untuk determinisme, ganti
 1 baris `OPENROUTER_MODEL` ke slug `:free` spesifik.
 
+## Testing & Optimasi (Fase 8)
+
+```bash
+npm test                  # full suite (live AI test skip otomatis tanpa key)
+npx vitest run <file>     # satu file test
+node scripts/load-test.mjs http://localhost:3100 20 50
+```
+
+- **Load test**: hanya ke `/` dan `/api/health` (20 konkuren × 50 req).
+  JANGAN ke `/api/generate` (rate limit 5/jam + boros kuota AI).
+- **Lighthouse** (manual, Chrome DevTools → tab Lighthouse, mode Navigation,
+  Desktop + Mobile, target >90): `npm run build && npm run start`,
+  buka `http://localhost:3000`, jalankan audit untuk `/`. Catat skor di
+  report Fase 8 bila di bawah target sebelum merge.
+- **Checklist browser/mobile manual**: Chrome + Firefox (+ Safari bila ada),
+  viewport 360px: landing → register → login → generate → history → hapus.
+  Pastikan tanpa error console dan layout tak rusak.
+- **Security headers** global: nosniff, DENY frame, referrer ketat, tanpa
+  kamera/mikrofon/lokasi (lihat `next.config.ts`). Tanpa CSP — keputusan
+  sadar (rapuh untuk inline style Tailwind + ThemeProvider).
+
 ## API Generate (Fase 5)
 
 `POST /api/generate` (login wajib) — body: `{content, platforms[], tone}`.

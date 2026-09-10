@@ -27,4 +27,22 @@ describe("PlatformSelector", () => {
     expect(boxes[1].getAttribute("aria-checked")).toBe("true");
     expect(boxes[0].getAttribute("aria-checked")).toBe("false");
   });
+
+  it("checkbox bisa difokus keyboard (tanpa tabindex -1)", () => {
+    const { container } = render(<PlatformSelector selected={[]} onChange={() => {}} />);
+    const boxes = container.querySelectorAll('[role="checkbox"]');
+    for (const box of boxes) {
+      expect(box.getAttribute("tabindex")).not.toBe("-1");
+    }
+  });
+
+  it("aktivasi keyboard toggle tepat sekali (tanpa double-fire label)", () => {
+    const onChange = vi.fn();
+    const { container } = render(<PlatformSelector selected={[]} onChange={onChange} />);
+    const box = container.querySelector('[role="checkbox"]') as HTMLElement;
+    // e.detail === 0 meniru aktivasi keyboard (Enter/Space).
+    fireEvent.click(box, { detail: 0 });
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith(["twitter"]);
+  });
 });
