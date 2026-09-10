@@ -143,7 +143,7 @@ export function HistoryList({
         <label htmlFor="history-filter" className="text-sm font-medium">
           Platform
         </label>
-        <Select value={filter} onValueChange={handleFilter}>
+        <Select value={filter} onValueChange={handleFilter} disabled={loadingMore}>
           <SelectTrigger id="history-filter" className="w-48">
             <SelectValue />
           </SelectTrigger>
@@ -197,7 +197,7 @@ export function HistoryList({
                   type="button"
                   variant="ghost"
                   size="sm"
-                  aria-label={`Hapus riwayat ${item.id}`}
+                  aria-label={`Hapus riwayat ${platformLabel(item.platform)} ${formatDate(item.createdAt)}`}
                   onClick={() => handleDelete(item.id)}
                 >
                   <Trash2 className="h-4 w-4" aria-hidden />
