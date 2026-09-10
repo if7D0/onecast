@@ -5,7 +5,7 @@
 import { AIError } from "./errors";
 import { MAX_CONTENT_CHARS } from "./prompts";
 import { PLATFORM_LABELS, type MockResult, type Platform, type Tone } from "@/types/generation";
-import { getDefaultProvider } from "./providers/index";
+import { generateWithFallback } from "./providers/index";
 import type { AIProvider } from "./types";
 
 export type GenerationOutput = MockResult;
@@ -31,7 +31,9 @@ function toOutput(platform: Platform, text: string): GenerationOutput {
 
 /**
  * Generate untuk beberapa platform. Sequential (bukan paralel) agar tidak
- * menghantam rate limit free tier. Throw AIError bila input/provider buruk.
+ * menghantam rate limit free tier. Tanpa provider eksplisit, tiap platform
+ * memakai rantai fallback (Gemini → Groq → OpenRouter). Throw AIError bila
+ * input/provider buruk.
  */
 export async function generateForPlatforms(
   content: string,
@@ -54,19 +56,34 @@ export async function generateForPlatforms(
     throw new AIError("INVALID_INPUT", "Pilih minimal 1 platform.", false);
   }
 
-  const active = provider ?? getDefaultProvider();
   const started = Date.now();
   const outputs: GenerationOutput[] = [];
+  const usedProviders = new Set<string>();
   let tokensUsed = 0;
 
-  for (const platform of platforms) {
-    const res = await active.generate({ content, platform, tone });
-    tokensUsed += res.tokensUsed;
-    outputs.push(toOutput(platform, res.text));
+  if (provider) {
+    // Jalur override (test): perilaku Fase 4 persis, tanpa fallback.
+    for (const platform of platforms) {
+      const res = await provider.generate({ content, platform, tone });
+      tokensUsed += res.tokensUsed;
+      outputs.push(toOutput(platform, res.text));
+    }
+    usedProviders.add(provider.name);
+  } else {
+    for (const platform of platforms) {
+      const { result, providerName } = await generateWithFallback({ content, platform, tone });
+      tokensUsed += result.tokensUsed;
+      outputs.push(toOutput(platform, result.text));
+      usedProviders.add(providerName);
+    }
   }
 
   return {
     outputs,
-    metadata: { provider: active.name, tokensUsed, generationTimeMs: Date.now() - started },
+    metadata: {
+      provider: [...usedProviders].join("+"),
+      tokensUsed,
+      generationTimeMs: Date.now() - started,
+    },
   };
 }

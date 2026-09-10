@@ -106,6 +106,24 @@ Provider primer: Google Gemini Flash (`@google/genai`, model `gemini-3.6-flash`)
 
 Catatan: `gemini-2.5-flash` sudah pensiun untuk user baru (API 404) — jangan dipakai.
 
+## AI Fallback (Fase 7)
+
+Urutan fallback otomatis: **Gemini → Groq → OpenRouter**. Provider yang
+key-nya belum diisi di-skip otomatis (cukup isi minimal satu key).
+
+1. Groq: buat key gratis di **console.groq.com/keys** → isi `GROQ_API_KEY`.
+2. OpenRouter: buat key gratis di **openrouter.ai/keys** → isi `OPENROUTER_API_KEY`.
+3. `metadata.provider` di respons `/api/generate` = provider aktual yang
+   dipakai (mis. `groq-gpt-oss-120b`, atau gabungan `a+b` bila campuran).
+4. Cek konfigurasi: `GET /api/health` → `{success, providers:
+[{name, configured}]}` (tanpa secret).
+5. Uji hemat kuota (±3 calls total): `npm test` (live test per provider
+   otomatis skip bila key-nya tidak ada).
+
+Catatan: model OpenRouter `openrouter/free` non-deterministik (dipilih acak
+dari model gratis) — disengaja untuk ketersediaan. Untuk determinisme, ganti
+1 baris `OPENROUTER_MODEL` ke slug `:free` spesifik.
+
 ## API Generate (Fase 5)
 
 `POST /api/generate` (login wajib) — body: `{content, platforms[], tone}`.
