@@ -1,6 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { z } from "zod";
 import { getCurrentUser } from "@/lib/auth/helpers";
 import { deleteGeneration } from "@/lib/db/queries";
+
+// Prisma terparameterisasi (tanpa injeksi), tapi ID ngawur tak perlu kena DB.
+const idSchema = z.string().trim().min(1).max(100);
 
 /**
  * DELETE /api/history/[id] — hapus milik sendiri.
@@ -16,7 +20,7 @@ export async function DELETE(
   }
 
   const { id } = await params; // Next 15: params adalah Promise
-  if (!id) {
+  if (!idSchema.safeParse(id).success) {
     return NextResponse.json({ success: false, error: "ID tidak valid." }, { status: 400 });
   }
 

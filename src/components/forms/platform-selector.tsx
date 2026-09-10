@@ -46,6 +46,9 @@ export function PlatformSelector({ selected, onChange }: PlatformSelectorProps) 
                 // Checkbox base-ui merender <button>, bukan <input>: htmlFor tak
                 // berlaku, jadi seluruh kartu toggle manual. preventDefault cegah
                 // double-fire dari klik langsung di kotak checkbox.
+                // e.detail === 0 = aktivasi keyboard (Enter/Space): biarkan
+                // checkbox yang handle via onCheckedChange agar tak double-toggle.
+                if (e.detail === 0) return;
                 e.preventDefault();
                 toggle(platform);
               }}
@@ -60,7 +63,6 @@ export function PlatformSelector({ selected, onChange }: PlatformSelectorProps) 
                 onCheckedChange={() => toggle(platform)}
                 onClick={(e) => e.stopPropagation()}
                 aria-label={PLATFORM_LABELS[platform]}
-                tabIndex={-1}
               />
               <Icon className="h-4 w-4 shrink-0" aria-hidden />
               <span className="flex min-w-0 flex-col">
