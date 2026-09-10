@@ -1,10 +1,11 @@
 # OneCast — AI Content Repurposing Tool
 
 Ubah satu konten menjadi berbagai format siap-post (Twitter/X, LinkedIn,
-Instagram, Newsletter) dalam < 5 menit. Gratis, open-source, self-hostable.
+Instagram, Newsletter) dalam kurang dari 5 menit. Gratis, open-source, self-hostable.
 
-> Status: **Fase 1 — Project Setup & Infrastructure** (lihat `onecast.prd.md`).
-> Landing page asli, auth, dan AI menyusul di Fase 2–5.
+> **Live**: [https://onecast-brown.vercel.app](https://onecast-brown.vercel.app)
+> — 9/9 fase PRD selesai. Lihat
+> [CONTRIBUTING.md](CONTRIBUTING.md) untuk ikut berkontribusi.
 
 ## Tech Stack
 
@@ -72,11 +73,28 @@ baru dibutuhkan di Fase 4+.
 > Catatan: Vercel Hobby hanya untuk non-komersial. Untuk komersial,
 > migrasi ke Cloudflare Pages (gratis) atau Railway (lihat PRD).
 
+## Produksi
+
+- **URL**: [https://onecast-brown.vercel.app](https://onecast-brown.vercel.app)
+  (auto-deploy setiap push ke `main`).
+- **Cek cepat**: `curl https://onecast-brown.vercel.app/api/health`
+  → `{success, providers: [{name, configured}]}` (tanpa secret).
+- **Env produksi wajib** (isi di dashboard Vercel → Settings → Environment
+  Variables): `DATABASE_URL`, `NEXT_PUBLIC_SUPABASE_URL`,
+  `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (server-only,
+  tanpa prefix `NEXT_PUBLIC_`), minimal 1 AI key, dan `NEXT_PUBLIC_APP_URL`
+  = URL produksi (agar sitemap/OG benar).
+
 ## Struktur Folder
 
-Lihat `.claude/PRPs/prds/onecast.prd.md` → bagian **Folder Structure** (kontrak doc).
-Fase 1 baru menyediakan fondasi: `src/app/`, `src/components/ui/`,
-`src/lib/db/`, `prisma/`.
+```text
+src/
+├── app/                  # Routes: /(auth), /(dashboard), /api
+├── components/           # UI (shadcn), forms, results, layout
+├── lib/                  # AI providers, auth, db, supabase, validations
+prisma/                   # Schema + migrasi
+scripts/                  # Utilitas (load-test)
+```
 
 ## Auth (Fase 2)
 
@@ -165,26 +183,30 @@ pagination: {page, limit, total, hasMore}}`. Query salah → 400.
 
 ### Troubleshooting
 
-| Gejala                                  | Penyebab & solusi                                         |
-| --------------------------------------- | --------------------------------------------------------- |
-| `redirect_uri_mismatch` saat Google     | Redirect URI di Google Console salah; samakan persis      |
-| Login "gagal" setelah register          | Konfirmasi email ON — cek inbox / matikan untuk dev lokal |
-| Signup error "Database error"           | Trigger gagal — cek Postgres Logs di dashboard            |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` kosong  | Ambil ulang di Settings → API (publishable/anon key)      |
-| Jangan bungkus nilai `.env` dengan `[]` | Tempel mentah tanpa kurung siku/spasi                     |
-| AI "Model tidak tersedia" (404)         | Model pensiun — ganti konstanta `GEMINI_MODEL`            |
-| AI timeout berulang                     | Model thinking lambat; timeout 60 dtk, coba lagi          |
+| Gejala                                  | Penyebab & solusi                                                                      |
+| --------------------------------------- | -------------------------------------------------------------------------------------- |
+| `redirect_uri_mismatch` saat Google     | Redirect URI di Google Console salah; samakan persis                                   |
+| Login "gagal" setelah register          | Konfirmasi email ON — cek inbox / matikan untuk dev lokal                              |
+| Signup error "Database error"           | Trigger gagal — cek Postgres Logs di dashboard                                         |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` kosong  | Ambil ulang di Settings → API (publishable/anon key)                                   |
+| Jangan bungkus nilai `.env` dengan `[]` | Tempel mentah tanpa kurung siku/spasi                                                  |
+| AI "Model tidak tersedia" (404)         | Model pensiun — ganti konstanta `GEMINI_MODEL`                                         |
+| AI timeout berulang                     | Model thinking lambat; timeout 60 dtk, coba lagi                                       |
+| Build CI gagal prerender `/`            | Env Supabase CI kosong — workflow memakai dummy (lihat `.github/workflows/deploy.yml`) |
+| Metadata/sitemap berisi `localhost`     | `NEXT_PUBLIC_APP_URL` produksi belum diisi di Vercel                                   |
 
 ### Batas yang diketahui (tracking)
 
 - **Rate limit in-memory** (`src/lib/rate-limit.ts`): berlaku per instance
   saja — di serverless multi-instance, batas longgar. Ganti Upstash Redis
   saat butuh limit terdistribusi. Throttling bawaan Supabase Auth tetap jalan.
-- **Security headers/CSP**: belum ada — masuk Fase 3 (`next.config.ts`).
+- **Security headers** global di `next.config.ts`: nosniff, DENY frame,
+  referrer ketat, tanpa kamera/mikrofon/lokasi. Tanpa CSP — keputusan
+  sadar (rapuh untuk inline style Tailwind + ThemeProvider).
 - **Dependensi**: `npm audit` melaporkan HIGH transitif (postcss via Next 15,
   deepmerge-ts via Prisma). Jangan `audit fix --force` (menarik breaking
   Next 16/Prisma 8); bump terjadwal saat versi stabil + Dependabot.
 
 ## Lisensi
 
-MIT (ditambahkan di Fase 9).
+MIT — lihat [LICENSE](LICENSE).
