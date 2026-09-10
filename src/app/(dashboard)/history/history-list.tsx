@@ -168,7 +168,7 @@ export function HistoryList({
         <div className="flex flex-col items-center gap-2 rounded-lg border border-dashed p-8 text-center">
           <FileWarning className="text-muted-foreground h-6 w-6" aria-hidden />
           <p className="text-sm font-medium">Belum ada riwayat</p>
-          <p className="text-muted-foreground text-sm">Buat generate pertama Anda di dashboard.</p>
+          <p className="text-muted-foreground text-sm">Buat yang pertama di dashboard.</p>
           <Link href="/dashboard" className={buttonVariants({ variant: "outline" })}>
             Ke Dashboard
           </Link>

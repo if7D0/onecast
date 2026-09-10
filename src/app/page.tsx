@@ -11,7 +11,7 @@ const FEATURES = [
   {
     icon: AtSign,
     title: "X (Twitter)",
-    desc: "Thread dan cuitan ≤280 karakter yang memancing balasan.",
+    desc: "Thread dan cuitan ≤280 karakter.",
   },
   {
     icon: Briefcase,
@@ -21,7 +21,7 @@ const FEATURES = [
   {
     icon: Camera,
     title: "Instagram",
-    desc: "Caption engaging lengkap dengan hashtag relevan.",
+    desc: "Caption + hashtag relevan.",
   },
   {
     icon: Mail,
@@ -44,7 +44,7 @@ const STEPS = [
   {
     icon: Zap,
     title: "3. Salin & posting",
-    desc: "Hasil per platform muncul dalam hitungan detik. Satu klik untuk menyalin.",
+    desc: "Hasil tiap platform siap disalin dengan satu klik.",
   },
 ];
 
@@ -68,8 +68,8 @@ export default function Home() {
             Ubah satu konten jadi siap-post di semua platform
           </h1>
           <p className="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg">
-            Tempel blog, transkrip, atau catatan — dapatkan versi X, LinkedIn, Instagram, dan
-            newsletter dalam &lt;5 menit. Hemat 80% waktu repurposing.
+            Tempel blog, transkrip, atau catatan. Dapat versi X, LinkedIn, Instagram, dan newsletter
+            dalam hitungan menit.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
@@ -90,7 +90,7 @@ export default function Home() {
             Lihat contoh hasilnya
           </h2>
           <p className="text-muted-foreground mx-auto mt-2 max-w-xl text-center">
-            Satu konten masuk, empat format keluar. Contoh statis dari konten yang sama.
+            Satu konten masuk, empat format keluar. Contoh statis, bukan hasil AI.
           </p>
           <div className="mt-8 grid items-start gap-4 md:grid-cols-3">
             <ResultCard
@@ -120,7 +120,7 @@ export default function Home() {
           </div>
           <div className="mt-8 text-center">
             <Link href="/register" className={buttonVariants({ size: "lg", variant: "outline" })}>
-              Buat hasil Anda sendiri
+              Coba sekarang
             </Link>
           </div>
         </section>
@@ -135,7 +135,7 @@ export default function Home() {
             Satu konten, empat format
           </h2>
           <p className="text-muted-foreground mx-auto mt-2 max-w-xl text-center">
-            Setiap platform punya gayanya sendiri. OneCast menyesuaikan otomatis.
+            Setiap platform punya gayanya sendiri. Pilih target, AI menulis ulang nadanya.
           </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {FEATURES.map((f) => (
@@ -176,7 +176,7 @@ export default function Home() {
           </div>
           <div className="text-muted-foreground mt-8 flex items-center justify-center gap-2 text-sm">
             <Clock className="h-4 w-4" aria-hidden />
-            <p>Rata-rata menghemat 5–10 jam per minggu dibanding tulis ulang manual.</p>
+            <p>Tanpa tulis ulang manual untuk tiap platform.</p>
           </div>
         </section>
 
@@ -190,7 +190,7 @@ export default function Home() {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground mx-auto max-w-xl">
-                Daftar gratis, tanpa kartu kredit. Riwayat generate tersimpan otomatis.
+                Daftar gratis, tanpa kartu kredit. Kami simpan semua hasil di riwayat.
               </p>
               <Link href="/register" className={buttonVariants({ size: "lg" })}>
                 Buat akun gratis

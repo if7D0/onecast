@@ -23,9 +23,9 @@ export const TONE_LABELS: Record<Tone, string> = {
 
 export const TONE_DESCRIPTIONS: Record<Tone, string> = {
   professional: "Formal, kredibel, cocok untuk B2B dan otoritas.",
-  casual: "Hangat dan conversational seperti ngobrol.",
-  witty: "Cerdas dan playful dengan twist tak terduga.",
-  inspirational: "Memotivasi dengan pesan yang mengangkat.",
+  casual: "Hangat seperti mengobrol.",
+  witty: "Cerdas dan jenaka dengan akhir tak terduga.",
+  inspirational: "Memotivasi kamu untuk bertindak.",
 };
 
 /** Bentuk hasil per platform — meniru kontrak API PRD (Fase 5). */

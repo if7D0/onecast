@@ -58,7 +58,7 @@ export function ContentInput({ value, onChange }: ContentInputProps) {
         id="content"
         value={value}
         onChange={(e) => onChange(e.target.value.slice(0, CONTENT_MAX))}
-        placeholder="Tempel blog post, transkrip, atau catatan Anda di sini…"
+        placeholder="Tempel blog post, transkrip, atau catatan…"
         rows={8}
         className="resize-y"
       />
