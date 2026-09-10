@@ -18,7 +18,8 @@ Instagram, Newsletter) dalam < 5 menit. Gratis, open-source, self-hostable.
 
 ## Prasyarat
 
-- Node.js ≥ 20.9 (`node -v`)
+- Node.js ≥ 24 (`node -v`) — test suite (jsdom 30) butuh API Node 22+;
+  versi ini juga dipakai CI (lihat `.github/workflows/deploy.yml`)
 - npm (bawaan Node)
 - Project Supabase gratis ([supabase.com](https://supabase.com)) untuk kredensial DB
 

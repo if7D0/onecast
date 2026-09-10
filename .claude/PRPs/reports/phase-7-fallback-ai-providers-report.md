@@ -10,51 +10,51 @@ status konfigurasi. Tanpa perubahan UI maupun signature API.
 
 ## Assessment vs Reality
 
-| Metric | Predicted (Plan) | Actual |
-|---|---|---|
-| Complexity | Medium | Medium |
-| Confidence | 8 | Tercapai — single pass + 1 fix test |
-| Files Changed | 4 created, 3 updated (+ test/health/docs) | 6 created, 6 updated |
+| Metric        | Predicted (Plan)                          | Actual                              |
+| ------------- | ----------------------------------------- | ----------------------------------- |
+| Complexity    | Medium                                    | Medium                              |
+| Confidence    | 8                                         | Tercapai — single pass + 1 fix test |
+| Files Changed | 4 created, 3 updated (+ test/health/docs) | 6 created, 6 updated                |
 
 ## Tasks Completed
 
-| # | Task | Status | Notes |
-|---|---|---|---|
-| 1 | Env guards + isConfigured | Done Complete | `geminiEnv` sempat terhapus saat edit, langsung dikembalikan + tsc hijau |
-| 2 | GroqProvider | Done Complete | Sesuai plan |
-| 3 | OpenRouterProvider | Done Complete | Sesuai plan |
-| 4 | Rantai fallback | Done Complete | Deviasi kecil — lihat bawah |
-| 5 | Colok chain ke service | Done Complete | Sesuai plan |
-| 6 | Health + docs | Done Complete | Sesuai plan |
-| 7 | Test + validasi | Done Complete | 1 fix: stub env key di test (lihat Issues) |
+| #   | Task                      | Status        | Notes                                                                    |
+| --- | ------------------------- | ------------- | ------------------------------------------------------------------------ |
+| 1   | Env guards + isConfigured | Done Complete | `geminiEnv` sempat terhapus saat edit, langsung dikembalikan + tsc hijau |
+| 2   | GroqProvider              | Done Complete | Sesuai plan                                                              |
+| 3   | OpenRouterProvider        | Done Complete | Sesuai plan                                                              |
+| 4   | Rantai fallback           | Done Complete | Deviasi kecil — lihat bawah                                              |
+| 5   | Colok chain ke service    | Done Complete | Sesuai plan                                                              |
+| 6   | Health + docs             | Done Complete | Sesuai plan                                                              |
+| 7   | Test + validasi           | Done Complete | 1 fix: stub env key di test (lihat Issues)                               |
 
 ## Validation Results
 
-| Level | Status | Notes |
-|---|---|---|
-| Static Analysis | Done Pass | `tsc --noEmit` nol error; `eslint --quiet` bersih |
-| Unit Tests | Done Pass | 75 passed, 2 skipped (live Groq/OpenRouter tanpa key) |
-| Build | Done Pass | `npm run build` sukses; `/api/health` terdaftar di route table |
-| Integration | Done Pass | `GET /api/health` live via `next start`: `{success:true, providers:[gemini:true, groq:false, openrouter:false]}` |
-| Edge Cases | Done Pass | Failover, fail-fast input, chain kosong, tanpa-key — semua ter-cover unit test |
-| Format | Done Pass | Prettier applied ke file baru/ubahan (`CLAUDE.md` warn pre-existing, tak disentuh) |
+| Level           | Status    | Notes                                                                                                            |
+| --------------- | --------- | ---------------------------------------------------------------------------------------------------------------- |
+| Static Analysis | Done Pass | `tsc --noEmit` nol error; `eslint --quiet` bersih                                                                |
+| Unit Tests      | Done Pass | 75 passed, 2 skipped (live Groq/OpenRouter tanpa key)                                                            |
+| Build           | Done Pass | `npm run build` sukses; `/api/health` terdaftar di route table                                                   |
+| Integration     | Done Pass | `GET /api/health` live via `next start`: `{success:true, providers:[gemini:true, groq:false, openrouter:false]}` |
+| Edge Cases      | Done Pass | Failover, fail-fast input, chain kosong, tanpa-key — semua ter-cover unit test                                   |
+| Format          | Done Pass | Prettier applied ke file baru/ubahan (`CLAUDE.md` warn pre-existing, tak disentuh)                               |
 
 ## Files Changed
 
-| File | Action | Lines |
-|---|---|---|
-| `src/lib/ai/providers/groq.ts` | CREATED | +88 |
-| `src/lib/ai/providers/openrouter.ts` | CREATED | +95 |
-| `src/lib/ai/providers/fallback.test.ts` | CREATED | +~110 |
-| `src/lib/ai/providers/groq.test.ts` | CREATED | +~90 |
-| `src/lib/ai/providers/openrouter.test.ts` | CREATED | +~90 |
-| `src/app/api/health/route.ts` | CREATED | +9 |
-| `src/lib/ai/env.ts` | UPDATED | +41 |
-| `src/lib/ai/providers/index.ts` | UPDATED | +65 / -10 |
-| `src/lib/ai/index.ts` | UPDATED | +~25 / -~10 |
-| `.env.example` | UPDATED | +2 komentar |
-| `README.md` | UPDATED | +18 (bagian AI Fallback) |
-| `.claude/PRPs/prds/onecast.prd.md` | UPDATED | status → in-progress + ref plan |
+| File                                      | Action  | Lines                           |
+| ----------------------------------------- | ------- | ------------------------------- |
+| `src/lib/ai/providers/groq.ts`            | CREATED | +88                             |
+| `src/lib/ai/providers/openrouter.ts`      | CREATED | +95                             |
+| `src/lib/ai/providers/fallback.test.ts`   | CREATED | +~110                           |
+| `src/lib/ai/providers/groq.test.ts`       | CREATED | +~90                            |
+| `src/lib/ai/providers/openrouter.test.ts` | CREATED | +~90                            |
+| `src/app/api/health/route.ts`             | CREATED | +9                              |
+| `src/lib/ai/env.ts`                       | UPDATED | +41                             |
+| `src/lib/ai/providers/index.ts`           | UPDATED | +65 / -10                       |
+| `src/lib/ai/index.ts`                     | UPDATED | +~25 / -~10                     |
+| `.env.example`                            | UPDATED | +2 komentar                     |
+| `README.md`                               | UPDATED | +18 (bagian AI Fallback)        |
+| `.claude/PRPs/prds/onecast.prd.md`        | UPDATED | status → in-progress + ref plan |
 
 ## Deviations from Plan
 
@@ -85,11 +85,11 @@ status konfigurasi. Tanpa perubahan UI maupun signature API.
 
 ## Tests Written
 
-| Test File | Tests | Coverage |
-|---|---|---|
-| `groq.test.ts` | 5 stub + 1 live (skip) | Sukses/usage, tanpa-usage, kosong, 429, 401, live |
-| `openrouter.test.ts` | 5 stub + 1 live (skip) | Mirror Groq |
-| `fallback.test.ts` | 8 | Failover, fail-fast, error-terakhir, chain-kosong, urutan chain, 1-key, 0-key, regresi override |
+| Test File            | Tests                  | Coverage                                                                                        |
+| -------------------- | ---------------------- | ----------------------------------------------------------------------------------------------- |
+| `groq.test.ts`       | 5 stub + 1 live (skip) | Sukses/usage, tanpa-usage, kosong, 429, 401, live                                               |
+| `openrouter.test.ts` | 5 stub + 1 live (skip) | Mirror Groq                                                                                     |
+| `fallback.test.ts`   | 8                      | Failover, fail-fast, error-terakhir, chain-kosong, urutan chain, 1-key, 0-key, regresi override |
 
 ## Manual Validation (dari plan)
 
@@ -105,9 +105,9 @@ status konfigurasi. Tanpa perubahan UI maupun signature API.
 ## Follow-up Review (MEDIUM warnings — DONE)
 
 - Dedup: `src/lib/ai/providers/openai-compatible.ts` (helper `chatCompletions`
-  + `OpenAICompatConfig`); `groq.ts`/`openrouter.ts` tinggal ~25 baris
-  (konstanta + guard + delegasi). Pesan env guard spesifik per provider
-  dipertahankan.
+  - `OpenAICompatConfig`); `groq.ts`/`openrouter.ts` tinggal ~25 baris
+    (konstanta + guard + delegasi). Pesan env guard spesifik per provider
+    dipertahankan.
 - `console.warn` → param opsional `onFallback(name, code)` di
   `generateWithFallback` (default diam) + 1 unit test callback.
 - Re-validasi: tsc bersih, lint bersih, prettier bersih, **78/78 test hijau**
