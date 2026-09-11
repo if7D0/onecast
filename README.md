@@ -3,9 +3,8 @@
 Ubah satu konten menjadi berbagai format siap-post (Twitter/X, LinkedIn,
 Instagram, Newsletter) dalam kurang dari 5 menit. Gratis, open-source, self-hostable.
 
-> **Live**: [https://onecast-brown.vercel.app](https://onecast-brown.vercel.app)
-> — 9/9 fase PRD selesai. Lihat
-> [CONTRIBUTING.md](CONTRIBUTING.md) untuk ikut berkontribusi.
+> Dijalankan lokal di mesin sendiri — lihat [CONTRIBUTING.md](CONTRIBUTING.md)
+> untuk ikut berkontribusi.
 
 ## Tech Stack
 
@@ -62,28 +61,25 @@ baru dibutuhkan di Fase 4+.
 | `npx prettier --check .` | Cek format             |
 | `npx prisma studio`      | GUI database           |
 
-## Deploy ke Vercel
+## Menjalankan di Mesin Sendiri
 
-1. Push repo ke GitHub.
-2. Import di [vercel.com/new](https://vercel.com/new).
-3. Isi environment variables (lihat tabel di atas + `NEXT_PUBLIC_APP_URL`
-   = URL produksi, `NEXT_PUBLIC_APP_NAME=OneCast`).
-4. Deploy — setiap push ke `main` otomatis redeploy.
+Repo ini tidak di-hosting di mana pun. Unduh, isi `.env`, jalankan:
 
-> Catatan: Vercel Hobby hanya untuk non-komersial. Untuk komersial,
-> migrasi ke Cloudflare Pages (gratis) atau Railway (lihat PRD).
+```bash
+npm install
+cp .env.example .env   # isi kredensial (lihat tabel Environment)
+npm run dev            # http://localhost:3000 (development)
+```
 
-## Produksi
+Untuk mode produksi lokal:
 
-- **URL**: [https://onecast-brown.vercel.app](https://onecast-brown.vercel.app)
-  (auto-deploy setiap push ke `main`).
-- **Cek cepat**: `curl https://onecast-brown.vercel.app/api/health`
-  → `{success, providers: [{name, configured}]}` (tanpa secret).
-- **Env produksi wajib** (isi di dashboard Vercel → Settings → Environment
-  Variables): `DATABASE_URL`, `NEXT_PUBLIC_SUPABASE_URL`,
-  `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (server-only,
-  tanpa prefix `NEXT_PUBLIC_`), minimal 1 AI key, dan `NEXT_PUBLIC_APP_URL`
-  = URL produksi (agar sitemap/OG benar).
+```bash
+npm run build
+npm run start          # http://localhost:3000 (production build)
+```
+
+`NEXT_PUBLIC_APP_URL` opsional (default `http://localhost:3000`).
+Isi bila diakses via hostname/LAN lain agar sitemap dan preview benar.
 
 ## Struktur Folder
 
@@ -193,7 +189,7 @@ pagination: {page, limit, total, hasMore}}`. Query salah → 400.
 | AI "Model tidak tersedia" (404)         | Model pensiun — ganti konstanta `GEMINI_MODEL`                                         |
 | AI timeout berulang                     | Model thinking lambat; timeout 60 dtk, coba lagi                                       |
 | Build CI gagal prerender `/`            | Env Supabase CI kosong — workflow memakai dummy (lihat `.github/workflows/deploy.yml`) |
-| Metadata/sitemap berisi `localhost`     | `NEXT_PUBLIC_APP_URL` produksi belum diisi di Vercel                                   |
+| Metadata/sitemap berisi `localhost`     | `NEXT_PUBLIC_APP_URL` belum diisi di `.env` (lihat atas)                               |
 
 ### Batas yang diketahui (tracking)
 
