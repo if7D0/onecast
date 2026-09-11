@@ -23,7 +23,7 @@ export function ResultCard({
   const fullText = result.footer ? `${result.body}\n\n${result.footer}` : result.body;
 
   return (
-    <Card className="hover:border-primary transition-colors duration-200">
+    <Card className="hover:border-primary flex flex-col transition-colors duration-200">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-base">
           <span className="bg-primary/10 flex h-7 w-7 items-center justify-center rounded-lg">
@@ -38,13 +38,13 @@ export function ResultCard({
           </span>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-1">
         <p className="text-sm whitespace-pre-wrap">{result.body}</p>
         {result.footer && (
           <p className="text-muted-foreground mt-2 text-sm whitespace-pre-wrap">{result.footer}</p>
         )}
       </CardContent>
-      <CardFooter className="flex items-center justify-between">
+      <CardFooter className="mt-auto flex items-center justify-between">
         <span className="text-muted-foreground text-xs">{fullText.length} karakter</span>
         <CopyButton text={fullText} />
       </CardFooter>
