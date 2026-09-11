@@ -46,7 +46,7 @@ export function ResultList({
   }
 
   return (
-    <div className="grid items-start gap-4 md:grid-cols-2" aria-live="polite">
+    <div className="grid items-stretch gap-4 md:grid-cols-2" aria-live="polite">
       {results.map((r, i) => (
         <ResultCard key={`${r.platform}-${i}`} result={r} tone={tone} badge={badge} />
       ))}
