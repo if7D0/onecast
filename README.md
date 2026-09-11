@@ -1,4 +1,4 @@
-# OneCast — AI Content Repurposing Tool
+# OneCast: AI Content Repurposing Tool
 
 Ubah satu konten menjadi berbagai format siap-post (Twitter/X, LinkedIn,
 Instagram, Newsletter) dalam kurang dari 5 menit. Gratis, open-source, self-hostable.
