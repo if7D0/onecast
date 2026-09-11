@@ -72,11 +72,3 @@ export function getProviderStatuses(): { name: string; configured: boolean }[] {
     { name: "openrouter-free", configured: isOpenrouterConfigured() },
   ];
 }
-
-/**
- * Provider default. Kompat Fase 4/5: selalu Gemini.
- * Untuk rantai fallback, pakai getFallbackChain() + generateWithFallback().
- */
-export function getDefaultProvider(): AIProvider {
-  return new GeminiProvider();
-}

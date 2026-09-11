@@ -43,9 +43,6 @@ export function CopyButton({ text }: { text: string }) {
     setCopied(ok);
     if (timer.current !== null) window.clearTimeout(timer.current);
     timer.current = window.setTimeout(() => setCopied(false), 2000);
-    if (!ok) {
-      // Fallback terakhir: biarkan user blok manual — tandai via title.
-    }
   }
 
   return (

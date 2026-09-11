@@ -28,22 +28,6 @@ export async function recentGenerationUsage(
   return { count: rows.length, oldest: rows[0]?.createdAt ?? null };
 }
 
-/** Jumlah baris Generation user dalam window (untuk rate limit). */
-export async function countRecentGenerations(
-  userId: string,
-  windowMs = GENERATE_LIMIT_WINDOW_MS
-): Promise<number> {
-  return (await recentGenerationUsage(userId, windowMs)).count;
-}
-
-/** Baris tertua dalam window (untuk hitung retryAfter). Null bila tak ada. */
-export async function oldestRecentGeneration(
-  userId: string,
-  windowMs = GENERATE_LIMIT_WINDOW_MS
-): Promise<Date | null> {
-  return (await recentGenerationUsage(userId, windowMs)).oldest;
-}
-
 export interface SaveGenerationInput {
   userId: string;
   platform: Platform;
@@ -52,21 +36,6 @@ export interface SaveGenerationInput {
   outputs: { text: string }[];
   provider: string;
   tokensUsed: number;
-}
-
-/** Simpan 1 baris per platform. Throw dibiarkan naik — route yang memutuskan. */
-export async function saveGeneration(input: SaveGenerationInput): Promise<void> {
-  await prisma.generation.create({
-    data: {
-      userId: input.userId,
-      platform: input.platform,
-      tone: input.tone,
-      input: input.input,
-      outputs: input.outputs,
-      provider: input.provider,
-      tokensUsed: input.tokensUsed,
-    },
-  });
 }
 
 /** Simpan banyak baris sekaligus (1 roundtrip). Best-effort: kembalikan jumlah tersimpan. */
