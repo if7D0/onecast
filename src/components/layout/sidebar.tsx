@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { LogOut, Sparkles } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { logout } from "@/app/(dashboard)/dashboard/actions";
+import { LogoMark } from "@/components/shared/logo";
 import { Button } from "@/components/ui/button";
 import { NavLinks } from "./nav-links";
 
@@ -11,9 +12,7 @@ export function Sidebar({ email }: { email: string }) {
         href="/dashboard"
         className="flex items-center gap-2 px-3 py-2 text-xl font-extrabold tracking-tight"
       >
-        <span className="bg-primary flex h-8 w-8 items-center justify-center rounded-lg">
-          <Sparkles className="text-primary-foreground h-4 w-4" aria-hidden />
-        </span>
+        <LogoMark className="h-8 w-8" />
         OneCast
       </Link>
       <div className="mt-4 flex-1">

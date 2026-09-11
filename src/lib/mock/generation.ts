@@ -26,7 +26,7 @@ export function mockGenerate(content: string, platform: Platform, tone: Tone): M
       const hook = `[${toneLabel}] ${short}`;
       return {
         platform,
-        title: "X (Twitter) — contoh hasil",
+        title: "X (Twitter)",
         body: excerpt(hook, TWITTER_MAX),
         footer: "1/3 utas • balas untuk lanjut",
       };
@@ -34,21 +34,21 @@ export function mockGenerate(content: string, platform: Platform, tone: Tone): M
     case "linkedin":
       return {
         platform,
-        title: "LinkedIn — contoh hasil",
+        title: "LinkedIn",
         body: `Hook: ${excerpt(content, LINKEDIN_HOOK)}\n\nInsight (${toneLabel.toLowerCase()}): ${short}\n\nCTA: Bagaimana pengalaman Anda? Tulis di komentar.`,
         footer: "#konten #produktivitas",
       };
     case "instagram":
       return {
         platform,
-        title: "Instagram — contoh hasil",
-        body: `${excerpt(content, INSTAGRAM_EXCERPT)} ✨\n\nVersi ${toneLabel.toLowerCase()} dari konten Anda. Simpan untuk dibaca lagi.`,
+        title: "Instagram",
+        body: `${excerpt(content, INSTAGRAM_EXCERPT)}\n\nVersi ${toneLabel.toLowerCase()} dari konten Anda. Simpan untuk dibaca lagi.`,
         footer: "#konten #kreator #produktivitas",
       };
     case "email":
       return {
         platform,
-        title: "Email Newsletter — contoh hasil",
+        title: "Email Newsletter",
         body: `Subjek: [${toneLabel}] ${excerpt(content, EMAIL_SUBJECT)}\n\nHalo,\n\n${short}\n\nSalam,\nTim OneCast`,
       };
   }

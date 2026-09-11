@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { Sparkles } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { LogoMark } from "@/components/shared/logo";
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
@@ -8,9 +8,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
       <div aria-hidden className="bg-dot-grid absolute inset-0 opacity-50" />
       <Card className="relative w-full max-w-md shadow-lg">
         <CardHeader className="items-center">
-          <span className="bg-primary mb-1 flex h-11 w-11 items-center justify-center rounded-xl">
-            <Sparkles className="text-primary-foreground h-5 w-5" aria-hidden />
-          </span>
+          <LogoMark className="mb-1 h-11 w-11" />
           <CardTitle className="text-center text-2xl font-extrabold tracking-tight">
             OneCast
           </CardTitle>

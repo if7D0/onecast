@@ -34,7 +34,7 @@ const STEPS = [
   {
     icon: Copy,
     title: "1. Tempel konten",
-    desc: "Blog post, transkrip, atau catatan — tempel teks atau unggah file .txt/.md.",
+    desc: "Tempel teks atau unggah file .txt/.md berisi blog post, transkrip, atau catatan.",
   },
   {
     icon: Sparkles,
