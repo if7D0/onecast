@@ -42,8 +42,9 @@ export function LoginForm({ initialError }: { initialError: string }) {
           {pending ? "Memproses..." : "Masuk"}
         </Button>
       </form>
-      <div className="relative text-center text-sm text-gray-500">
-        <span className="bg-white px-2">atau</span>
+      <div className="relative text-center text-sm">
+        <span aria-hidden className="bg-border absolute inset-x-0 top-1/2 h-px" />
+        <span className="bg-card text-muted-foreground relative px-2">atau</span>
       </div>
       <GoogleButton label="Masuk dengan Google" />
       <p className="text-center text-sm">

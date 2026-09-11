@@ -127,7 +127,7 @@ export default function Home() {
           <p className="text-muted-foreground mx-auto mt-2 max-w-xl text-center">
             Satu konten masuk, empat format keluar. Contoh statis, bukan hasil AI.
           </p>
-          <div className="mt-8 grid items-start gap-4 md:grid-cols-3">
+          <div className="mt-8 grid items-stretch gap-4 md:grid-cols-3">
             <ResultCard
               result={mockGenerate(
                 "OneCast mengubah satu konten menjadi siap-post di semua platform dalam hitungan menit.",
